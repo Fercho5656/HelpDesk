@@ -3,7 +3,8 @@
     <div class="bg-gray-50 dark:bg-slate-800 h-screen grid grid-cols-12">
       <div class="flex flex-col col-span-12 md:col-span-6">
         <nuxt-link to="/">
-        <img class="w-40" src="./assets/tequila-campo-azul.svg" alt="">
+          <icons-campo-azul />
+          <!--<img class="w-40" src="./assets/tequila-campo-azul.svg" alt=""> -->
       </nuxt-link>
       <form @submit.prevent class="w-full h-5/6 flex flex-col self-center justify-center gap-y-3.5 md:w-9/12 p-5">
         <h2 class="dark:text-gray-50 text-2xl font-bold text-center">Bienvenido, inicie sesión</h2>
