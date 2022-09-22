@@ -1,7 +1,6 @@
 <template>
   <div :class="{'dark': darkMode}">
     <div class="bg-gray-50 dark:bg-slate-800 h-screen grid grid-cols-12">
-
       <div class="flex flex-col col-span-12 md:col-span-6">
         <nuxt-link to="/">
         <img class="w-40" src="./assets/tequila-campo-azul.svg" alt="">
@@ -25,7 +24,7 @@
       </form>
     </div>
     <div class="hidden md:block md:col-span-6">
-      <nuxt-img class="h-full object-cover" src="https://i.imgur.com/ylXWWmV.jpeg" alt="" />
+      <nuxt-img class="h-full object-cover" src="/auth-bg.jpeg" placeholder alt="" />
     </div>
   </div>
 </div>
