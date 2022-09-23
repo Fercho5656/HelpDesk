@@ -6,18 +6,10 @@
           <icons-campo-azul />
         </nuxt-link>
         <form @submit.prevent class="w-full h-full flex flex-col self-center justify-center gap-y-5 md:w-9/12 p-5">
-          <h2 class="dark:text-gray-50 text-2xl font-bold text-center">Bienvenido, inicie sesión</h2>
+          <h2 class="dark:text-gray-50 mb-3 text-2xl font-bold text-center">Bienvenido, inicie sesión</h2>
           <div class="flex flex-col gap-y-3">
-            <label class="block text-sm font-medium text-gray-900 dark:text-gray-300">
-              Correo Electrónico
-              <input class="block mt-1 w-full p-2 rounded-md bg-gray-200 dark:bg-gray-500 dark:placeholder-gray-300"
-                type="email" placeholder="Ejemplo: name@pfatequila.com">
-            </label>
-            <label class="block text-sm font-medium text-gray-900 dark:text-gray-300">
-              Contraseña
-              <input class="block mt-1 w-full p-2 rounded-md bg-gray-200 dark:bg-gray-500 dark:placeholder-gray-300"
-                type="password">
-            </label>
+            <ui-input type="email" label="Correo Electrónico" placeholder="name@pfatequila.com" v-model="email" />
+            <ui-password-input label="Contraseña" v-model="password" />
           </div>
           <button @click="darkMode = !darkMode"
             class="w-full py-3 dark:bg-cyan-900 bg-slate-800 text-gray-50 rounded-xl">Iniciar Sesión</button>
@@ -36,4 +28,6 @@
 
 <script setup lang="ts">
 const darkMode = ref(false)
+const email = ref<string>('')
+const password = ref<string>('')
 </script>
