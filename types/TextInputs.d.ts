@@ -1,0 +1,1 @@
+declare type TextInputs = "text" | "email" | "number" | "date" | "textarea"
