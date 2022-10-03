@@ -4,7 +4,7 @@
     <register v-else @show-login="showLogin = true" />
     <auth-background />
   </div>
-  <div v-else>
+  <div class="bg-gray-50 dark:bg-slate-800 h-screen grid grid-cols-12" v-else>
     <h2>Bienvenido, haz iniciado sesión</h2>
   </div>
 </template>
