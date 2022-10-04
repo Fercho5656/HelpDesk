@@ -1,10 +1,5 @@
 <template>
-  <div class="bg-gray-50 dark:bg-slate-800 h-screen grid grid-cols-12" v-if="showAuth">
-    <login v-if="showLogin" @show-register="showLogin = false" />
-    <register v-else @show-login="showLogin = true" />
-    <auth-background />
-  </div>
-  <div class="bg-gray-50 dark:bg-slate-800 h-screen grid grid-cols-12" v-else>
+  <div class="col-span-8 md:col-span-9 xl:col-span-10">
     <h2>Bienvenido, haz iniciado sesión</h2>
   </div>
 </template>
@@ -14,9 +9,6 @@ import { User } from '@supabase/gotrue-js';
 import { Ref } from 'vue';
 
 const user: Ref<User> = useSupabaseUser();
-const showLogin = ref<boolean>(true);
 
-const showAuth = computed(() => {
-  return !user.value;
-})
+const showAuth = computed(() => !user.value)
 </script>
