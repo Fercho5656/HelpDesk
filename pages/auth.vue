@@ -1,0 +1,18 @@
+<template>
+  <div class=" h-screen grid grid-cols-12">
+    <login v-if="showLogin" @show-register="showLogin = false" />
+    <register v-else @show-login="showLogin = true" />
+    <auth-background />
+  </div>
+</template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'auth'
+})
+const showLogin = ref<boolean>(true);
+</script>
+
+<style scoped>
+
+</style>
