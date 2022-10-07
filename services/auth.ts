@@ -6,6 +6,8 @@ interface IUserInfo {
   email: string
   password: string
   birthday: string
+  roleId: number
+  departmentId: number
 }
 
 // const client = useSupabaseClient()
