@@ -3,7 +3,7 @@
     <icons-campo-azul class="mx-auto mb-10" />
     <ul class=" flex flex-col items-center md:items-start gap-y-5">
       <li v-for="route in routes" :key="route.name" class="w-full flex justify-center md:justify-start hover:bg-slate-700 rounded-full transition-all">
-        <nuxt-link class="flex items-center gap-x-3 px-5 py-2" :to="route.path">
+        <nuxt-link class="w-full flex items-center justify-center md:justify-start gap-x-3 px-5 py-2" :to="route.path">
           <component class="w-10 h-10 fill-black dark:fill-white" :is="route.icon" />
           <p class="hidden md:block text-black dark:text-white text-xl">{{route.name}}</p>
         </nuxt-link>
