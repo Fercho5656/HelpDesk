@@ -7,9 +7,11 @@
 </template>
 
 <script setup lang="ts">
+
 definePageMeta({
-  layout: 'auth'
+  layout: 'auth',
 })
+
 const showLogin = ref<boolean>(true);
 </script>
 
