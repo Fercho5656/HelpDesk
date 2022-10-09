@@ -17,14 +17,14 @@ export const login = async (client: SupabaseClient, email: string, password: str
 }
 
 export const signUp = async (client: SupabaseClient, userInfo: IUserInfo): Promise<[User, Session, ApiError]> => {
+  const { email, password, ...userData } = userInfo
   const { user, session, error } = await client.auth.signUp({
-    email: userInfo.email,
-    password: userInfo.password,
+    email,
+    password
   },
     {
       data: {
-        fullName: userInfo.fullName,
-        birthday: userInfo.birthday,
+        ...userData
       },
     })
   return [user, session, error]
