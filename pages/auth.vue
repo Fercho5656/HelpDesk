@@ -1,5 +1,5 @@
 <template>
-  <div class=" h-screen grid grid-cols-12">
+  <div class="grid grid-cols-12">
     <login v-if="showLogin" @show-register="showLogin = false" />
     <register v-else @show-login="showLogin = true" />
     <auth-background />
