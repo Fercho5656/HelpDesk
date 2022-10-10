@@ -10,5 +10,6 @@ import { Ref } from 'vue';
 
 const user: Ref<User> = useSupabaseUser();
 
+const auth = useAuth('onlyAuth');
 const showAuth = computed(() => !user.value)
 </script>

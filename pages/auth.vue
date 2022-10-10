@@ -12,6 +12,7 @@ definePageMeta({
   layout: 'auth',
 })
 
+const auth = useAuth('onlyGuest')
 const showLogin = ref<boolean>(true);
 </script>
 
