@@ -1,7 +1,7 @@
 <template>
   <label class="relative block text-md font-medium text-gray-900 dark:text-gray-300">
     <p class="absolute top-0 -translate-y-full text-md">{{label}}</p>
-    <select @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    <select @input="onInput"
       class="w-full py-3 px-4 text-md font-semibold dark:text-gray-200 bg-gray-200 dark:bg-gray-500 dark:placeholder-gray-300 rounded-md">
       <slot />
     </select>
@@ -12,6 +12,15 @@
 interface Props {
   label: string
   modelValue: string | number
+}
+
+const emits = defineEmits<{
+  (e: 'update:modelValue', value: string | number): void
+}>()
+
+const onInput = (e: Event): Event => {
+  emits('update:modelValue', (e.target as HTMLInputElement).value)
+  return e
 }
 
 defineProps<Props>()
