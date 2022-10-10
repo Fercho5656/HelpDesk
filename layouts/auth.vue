@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-gray-50 dark:bg-slate-800">
-    <icons-campo-azul class="absolute m-3" />
+  <div class="h-screen flex flex-col overflow-y-auto bg-gray-50 dark:bg-slate-800">
     <slot />
+    <the-footer />
   </div>
 </template>
 
