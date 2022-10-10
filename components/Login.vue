@@ -6,8 +6,8 @@
       <ui-input type="email" label="Correo Electrónico" placeholder="name@pfatequila.com" v-model="email" />
       <ui-password-input label="Contraseña" v-model="password" />
     </div>
-    <button class="w-full py-3 text-lg dark:bg-cyan-900 bg-slate-800 text-gray-50 rounded-xl">Iniciar Sesión</button>
-    <p class="flex justify-center text-lg dark:text-gray-50">¿No tienes una cuenta?&nbsp; <nuxt-link to="#"
+    <button class="w-full py-3 text-md dark:bg-cyan-900 bg-slate-800 text-gray-50 rounded-xl">Iniciar Sesión</button>
+    <p class="flex justify-center text-md dark:text-gray-50">¿No tienes una cuenta?&nbsp; <nuxt-link to="#"
         @click="$emit('show-register')"
         class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">Regístrate
       </nuxt-link>
