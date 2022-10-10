@@ -32,9 +32,9 @@ const isEmailValid = computed(() => {
 })
 
 const submitLogin = async () => {
-  if (!isEmailValid.value) {
+  /* if (!isEmailValid.value) {
     return alert('El correo electrónico no es válido')
-  }
+  } */
   const [user, error] = await login(client, email.value, password.value)
   console.log(error)
   console.log(user)
