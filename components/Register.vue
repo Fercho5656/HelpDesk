@@ -8,9 +8,16 @@
       <ui-password-input label="Contraseña" v-model="password" />
       <ui-password-input label="Confirmar Contraseña" v-model="confirmPassword" />
       <ui-input type="date" label="Fecha de nacimiento" v-model="birthday" />
+      <ui-select label="Departamento" v-model="departmentId">
+        <option value="-1" selected disabled>Seleccione su área de trabajo</option>
+        <option v-for="department in departments" :key="department.id" :value="department.id">
+          {{ department.name }}
+        </option>
+      </ui-select>
+       <ui-input-file v-model="profilePic" />
     </div>
-    <button class="w-full py-3 text-lg dark:bg-cyan-900 bg-slate-800 text-gray-50 rounded-xl">Crear Cuenta</button>
-    <p class="flex justify-center dark:text-gray-50 text-lg">¿Ya tienes una cuenta?&nbsp; <nuxt-link to="#"
+    <button class="w-full py-3 text-md dark:bg-cyan-900 bg-slate-800 text-gray-50 rounded-xl">Crear Cuenta</button>
+    <p class="flex justify-center dark:text-gray-50 text-md">¿Ya tienes una cuenta?&nbsp; <nuxt-link to="#"
         @click="$emit('show-login')"
         class="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">Inicia Sesión
       </nuxt-link>
@@ -20,21 +27,32 @@
 
 <script setup lang="ts">
 import { signUp } from '../services/auth'
+import { getDepartments } from '~~/services/departments';
+import IDepartment from '~~/interfaces/IDepartment';
 
 defineEmits<{
   (e: 'show-login'): void
 }>()
+
+const departments = ref<IDepartment[]>([])
 
 const fullName = ref<string>('')
 const email = ref<string>('')
 const password = ref<string>('')
 const confirmPassword = ref<string>('')
 const birthday = ref<string>('')
+const profilePic = ref<File>()
+const departmentId = ref<number>(-1)
 
 const client = useSupabaseClient()
 
 const isEmailValid = computed(() => {
   return email.value.split('@')[1] === 'pfatequila.com'
+})
+
+onMounted(async () => {
+  const [error, data] = await getDepartments(client)
+  departments.value = data
 })
 
 const submitRegister = async () => {
@@ -45,7 +63,9 @@ const submitRegister = async () => {
     email: email.value,
     password: password.value,
     fullName: fullName.value,
-    birthday: birthday.value
+    birthday: birthday.value,
+    departmentId: departmentId.value,
+    profilePic: profilePic.value
   }
   const [user, session, error] = await signUp(client, userInfo)
 
