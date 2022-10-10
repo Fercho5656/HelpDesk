@@ -21,7 +21,7 @@ interface Props {
 defineProps<Props>()
 const emits = defineEmits(['update:modelValue'])
 
-const profilePicUrl = ref<string>("https://cdn.pixabay.com/photo/2016/04/22/04/57/graduation-1345143__340.png")
+const profilePicUrl = ref<string>(".\\public\\default-profile-pic.png")
 
 const onChange = (e: Event): Event => {
   const file = (e.target as HTMLInputElement).files[0]
