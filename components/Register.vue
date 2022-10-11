@@ -14,7 +14,7 @@
           {{ department.name }}
         </option>
       </ui-select>
-       <ui-input-file v-model="profilePic" />
+      <ui-input-file v-model="profilePic" />
     </div>
     <button class="w-full py-3 text-md dark:bg-cyan-900 bg-slate-800 text-gray-50 rounded-xl">Crear Cuenta</button>
     <p class="flex justify-center dark:text-gray-50 text-md">¿Ya tienes una cuenta?&nbsp; <nuxt-link to="#"
@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import { signUp } from '../services/auth'
+import { uploadProfilePic } from '../services/bucket/profilePic'
 import { getDepartments } from '~~/services/departments';
 import IDepartment from '~~/interfaces/IDepartment';
 
@@ -68,10 +69,18 @@ const submitRegister = async () => {
     profilePic: profilePic.value
   }
   const [user, session, error] = await signUp(client, userInfo)
+  if (error) {
+    console.log(error)
+    return alert(error.message)
+  }
+  const [uploadData, uploadError] = await uploadProfilePic(client, userInfo.email, profilePic.value)
+
+  if (uploadError) {
+    return alert(uploadError.message)
+  }
 
   console.log(user)
   console.log(session)
-  console.log(error)
 }
 </script>
 
