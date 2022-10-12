@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { getProfilePic } from '~~/services/bucket/profilePic'
 import { IUser } from "~~/interfaces/IUser"
 
 export type RootState = {
@@ -23,6 +24,12 @@ export const useUserStore = defineStore({
   },
   getters: {
     getUser: (state: RootState) => state.user,
+    getProfilePicture: async (state: RootState) => {
+      const client = useSupabaseClient()
+      const [profilePic, profilePicError] = await getProfilePic(client, state.user?.email)
+      if (profilePicError) return '/default-profile-pic.png'
+      return [profilePic, null]
+    }
   },
   actions: {
     setUser(user: IUser) {
