@@ -2,22 +2,25 @@
   <aside class="hidden h-full col-span-4 md:col-span-3 xl:col-span-2 sm:flex flex-col p-5 border-r-[1px]">
     <icons-campo-azul class="mx-auto mb-10" />
     <ul class=" flex flex-col items-center md:items-start gap-y-5">
-      <li v-for="route in routes" :key="route.name" class="w-full flex justify-center md:justify-start hover:bg-slate-700 rounded-full transition-all">
+      <li v-for="route in routes" :key="route.name"
+        class="w-full flex justify-center md:justify-start hover:bg-slate-700 rounded-full transition-all">
         <nuxt-link class="w-full flex items-center justify-center md:justify-start gap-x-3 px-5 py-2" :to="route.path">
           <component class="w-10 h-10 fill-black dark:fill-white" :is="route.icon" />
           <p class="hidden md:block text-black dark:text-white text-xl">{{route.name}}</p>
         </nuxt-link>
       </li>
     </ul>
-    <button class=" w-10 h-10 mt-auto">
+    <sidebar-account-menu class="mt-auto" :src="profilePic" :username="username" />
+    <!-- <button class=" w-10 h-10 mt-auto">
       <SunIcon class=" fill-black dark:fill-white" />
-    </button>
+    </button> -->
   </aside>
 
 </template>
 
 <script setup lang="ts">
 import { SunIcon, MoonIcon } from '@heroicons/vue/24/solid'
+import { useUserStore } from '~~/store/user.store';
 
 interface Props {
   routes: {
@@ -28,6 +31,11 @@ interface Props {
 }
 
 defineProps<Props>()
+
+const userState = useUserStore()
+const username = computed(() => userState.getUser?.user_metadata.fullName)
+const [profilePic, profilePicError] = await userState.getProfilePicture
+console.log(profilePic)
 </script>
 
 <style scoped>
