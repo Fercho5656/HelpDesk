@@ -57,8 +57,11 @@ onMounted(async () => {
 })
 
 const submitRegister = async () => {
-  if (!isEmailValid.value) {
+  /* if (!isEmailValid.value) {
     return alert('El correo electrónico no es válido')
+  } */
+  if(password.value !== confirmPassword.value) {
+    return alert('Las contraseñas no coinciden')
   }
   const userInfo = {
     email: email.value,
@@ -79,8 +82,11 @@ const submitRegister = async () => {
     return alert(uploadError.message)
   }
 
+  alert('Cuenta creada, revisa tu correo para activar tu cuenta')
+
   console.log(user)
   console.log(session)
+  console.log(uploadData)
 }
 </script>
 
