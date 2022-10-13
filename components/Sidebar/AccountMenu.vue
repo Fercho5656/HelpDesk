@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="self-center" ref="target">
     <sidebar-hover-card v-if="showHoverCard" :img="src" :username="firstName" />
     <button @click="showHoverCard = !showHoverCard" class="rounded-full dark:hover:bg-gray-700 transition-all">
       <sidebar-user-cell :img="src" :username="firstName" />
@@ -17,6 +17,11 @@ const props = defineProps<Props>()
 
 const firstName = computed(() => props.username.split(' ')[0])
 const showHoverCard = ref(true)
+const target = ref(null)
+
+onClickOutside(target, () => {
+  showHoverCard.value = false
+})
 </script>
 
 <style scoped>
