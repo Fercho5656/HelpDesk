@@ -12,8 +12,8 @@ export const uploadProfilePic = async (client: SupabaseClient, email: string, pr
   return [data.Key, error]
 }
 
-export const getProfilePic = async (client: SupabaseClient, email: string): Promise<[string, Error]> => {
-  const { data, error } = await client
+export const getProfilePic = (client: SupabaseClient, email: string): [string, Error] => {
+  const { data, error } = client
     .storage
     .from('profile-pics')
     .getPublicUrl(`${email}_profile_pic.png`)

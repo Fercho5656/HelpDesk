@@ -24,9 +24,9 @@ export const useUserStore = defineStore({
   },
   getters: {
     getUser: (state: RootState) => state.user,
-    getProfilePicture: async (state: RootState) => {
+    getProfilePicture: (state: RootState) => {
       const client = useSupabaseClient()
-      const [profilePic, profilePicError] = await getProfilePic(client, state.user?.email)
+      const [profilePic, profilePicError] = getProfilePic(client, state.user?.email)
       if (profilePicError) return '/default-profile-pic.png'
       return [profilePic, null]
     }
