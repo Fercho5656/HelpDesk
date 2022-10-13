@@ -11,15 +11,11 @@
       </li>
     </ul>
     <sidebar-account-menu class="mt-auto" :src="profilePic" :username="username" />
-    <!-- <button class=" w-10 h-10 mt-auto">
-      <SunIcon class=" fill-black dark:fill-white" />
-    </button> -->
   </aside>
 
 </template>
 
 <script setup lang="ts">
-import { SunIcon, MoonIcon } from '@heroicons/vue/24/solid'
 import { useUserStore } from '~~/store/user.store';
 
 interface Props {
@@ -34,7 +30,7 @@ defineProps<Props>()
 
 const userState = useUserStore()
 const username = computed(() => userState.getUser?.user_metadata.fullName)
-const [profilePic, profilePicError] = await userState.getProfilePicture
+const [profilePic, profilePicError] = userState.getProfilePicture
 console.log(profilePic)
 </script>
 
