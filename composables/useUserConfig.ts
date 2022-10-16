@@ -1,17 +1,12 @@
 import { useStorage } from "@vueuse/core"
-import { RootState, useUserSettings } from "~~/store/userSettings.store"
+import { useUserSettings } from "~~/store/userSettings.store"
 
 export const useUserConfig = () => {
   const userSettings = useUserSettings()
+  const dark = ref<boolean>(userSettings.getIsDarkMode)
   onMounted(() => {
-    const localStorageConfig = useStorage("userSettings", {} as RootState).value
-    if (!localStorageConfig) {
-      return useStorage('userSettings', userSettings.getConfig)
-    }
-    userSettings.setConfig(localStorageConfig as RootState)
+    dark.value = userSettings.getIsDarkMode
   })
-
-  const dark = computed(() => userSettings.getIsDarkMode)
   return {
     dark,
   }
