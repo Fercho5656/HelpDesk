@@ -1,8 +1,8 @@
 <template>
-  <div class="self-center" ref="target">
-    <sidebar-hover-card v-if="showHoverCard" :img="src" :username="firstName" />
+  <div ref="target">
+    <sidebar-account-menu-hover-card v-if="showHoverCard" :img="src" :username="firstName" />
     <button @click="showHoverCard = !showHoverCard" class="rounded-full dark:hover:bg-gray-700 transition-all">
-      <sidebar-user-cell :img="src" :username="firstName" />
+      <sidebar-account-menu-user-cell :img="src" :username="firstName" />
     </button>
   </div>
 </template>
