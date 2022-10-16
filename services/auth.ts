@@ -20,7 +20,7 @@ export const login = async (client: SupabaseClient, email: string, password: str
 export const signUp = async (client: SupabaseClient, userInfo: IUserInfo): Promise<[User, Session, ApiError | Error]> => {
   const { email, password, profilePic, ...userData } = userInfo
   // uploads the profile pic to supabase storage
-  
+
   const { user, session, error } = await client.auth.signUp({
     email,
     password
@@ -32,4 +32,9 @@ export const signUp = async (client: SupabaseClient, userInfo: IUserInfo): Promi
     })
   if (error) return [null, null, error]
   return [user, session, error]
+}
+
+export const signOut = async (client: SupabaseClient): Promise<ApiError> => {
+  const { error } = await client.auth.signOut()
+  return error
 }
