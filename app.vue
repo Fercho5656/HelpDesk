@@ -1,5 +1,5 @@
 <template>
-    <div class="dark">
+    <div :class="dark ? 'dark' : ''">
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
@@ -7,6 +7,8 @@
 </template>
 
 <script setup lang="ts">
+const { dark } = useUserConfig()
+
 </script>
 
 <style scoped>

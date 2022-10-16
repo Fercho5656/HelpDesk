@@ -1,28 +1,32 @@
 import { defineStore } from "pinia";
+import { useStorage } from "@vueuse/core";
 
 export type RootState = {
-  userSettings: {
-    isDarkMode: boolean;
-  }
+  isDarkMode: boolean;
 }
 
 export const useUserSettings = defineStore({
   id: "userSettings",
-  state: (): RootState => {
-    return {
-      userSettings: {
-        isDarkMode: false,
-      },
-    };
+  state: (): RootState => ({
+    isDarkMode: useStorage("userSettings/isDarkMode", false).value,
+  }),
+  hydrate(state, initialState) {
+    state = useStorage("userSettings", {} as RootState).value
   },
   getters: {
     getIsDarkMode(): boolean {
-      return this.userSettings.isDarkMode;
+      return this.isDarkMode;
     },
+    getConfig(): RootState {
+      return this.$state;
+    }
   },
   actions: {
     setDarkMode(isDarkMode: boolean): void {
-      this.userSettings.isDarkMode = isDarkMode;
+      this.isDarkMode = isDarkMode;
+    },
+    setConfig(config: RootState): void {
+      this.$state = config;
     }
   }
 })

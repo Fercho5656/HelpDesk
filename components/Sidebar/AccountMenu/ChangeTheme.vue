@@ -20,6 +20,7 @@ onMounted(() => {
 const changeTheme = () => {
   isDark.value = !isDark.value
   userSettings.setDarkMode(isDark.value)
+  localStorage.setItem('userSettings', JSON.stringify(userSettings.getConfig))
 }
 
 </script>
