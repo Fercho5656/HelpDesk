@@ -31,7 +31,6 @@ defineProps<Props>()
 const userState = useUserStore()
 const username = computed(() => userState.getUser?.user_metadata.fullName)
 const [profilePic, profilePicError] = userState.getProfilePicture
-console.log(profilePic)
 </script>
 
 <style scoped>

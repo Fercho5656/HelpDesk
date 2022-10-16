@@ -16,7 +16,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const firstName = computed(() => props.username.split(' ')[0])
-const showHoverCard = ref(true)
+const showHoverCard = ref(false)
 const target = ref(null)
 
 onClickOutside(target, () => {
