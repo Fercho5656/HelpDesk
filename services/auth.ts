@@ -4,6 +4,7 @@ import { SupabaseClient } from "@supabase/supabase-js"
 interface IUserInfo {
   fullName: string
   email: string
+  username: string
   password: string
   birthday: string
   profilePic: File
@@ -20,7 +21,6 @@ export const login = async (client: SupabaseClient, email: string, password: str
 export const signUp = async (client: SupabaseClient, userInfo: IUserInfo): Promise<[User, Session, ApiError | Error]> => {
   const { email, password, profilePic, ...userData } = userInfo
   // uploads the profile pic to supabase storage
-
   const { user, session, error } = await client.auth.signUp({
     email,
     password
@@ -30,7 +30,9 @@ export const signUp = async (client: SupabaseClient, userInfo: IUserInfo): Promi
         ...userData
       },
     })
-  if (error) return [null, null, error]
+  if (error) {
+    return [null, null, error]
+  }
   return [user, session, error]
 }
 

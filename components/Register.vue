@@ -4,6 +4,7 @@
     <h2 class="dark:text-gray-50 mb-3 text-2xl font-bold text-center">Crear Cuenta</h2>
     <div class="flex flex-col gap-y-10">
       <ui-input type="text" label="Nombre Completo" placeholder="John Doe" v-model="fullName" />
+      <ui-input type="text" label="Nombre de Usuario" placeholder="JohnDoe123" v-model="username" />
       <ui-input type="email" label="Correo Electrónico" placeholder="name@pfatequila.com" v-model="email" />
       <ui-password-input label="Contraseña" v-model="password" />
       <ui-password-input label="Confirmar Contraseña" v-model="confirmPassword" />
@@ -39,6 +40,7 @@ const departments = ref<IDepartment[]>([])
 
 const fullName = ref<string>('')
 const email = ref<string>('')
+const username = ref<string>('')
 const password = ref<string>('')
 const confirmPassword = ref<string>('')
 const birthday = ref<string>('')
@@ -65,6 +67,7 @@ const submitRegister = async () => {
   }
   const userInfo = {
     email: email.value,
+    username: username.value,
     password: password.value,
     fullName: fullName.value,
     birthday: birthday.value,
