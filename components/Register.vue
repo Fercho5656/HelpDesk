@@ -62,12 +62,12 @@ const submitRegister = async () => {
   /* if (!isEmailValid.value) {
     return alert('El correo electrónico no es válido')
   } */
-  if(password.value !== confirmPassword.value) {
+  if (password.value !== confirmPassword.value) {
     return alert('Las contraseñas no coinciden')
   }
   const userInfo = {
     email: email.value,
-    username: username.value,
+    username: username.value.toLocaleLowerCase(),
     password: password.value,
     fullName: fullName.value,
     birthday: birthday.value,
