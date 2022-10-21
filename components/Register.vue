@@ -31,12 +31,13 @@ import { signUp } from '../services/auth'
 import { uploadProfilePic } from '../services/bucket/profilePic'
 import { getDepartments } from '~~/services/departments';
 import IDepartment from '~~/interfaces/IDepartment';
+import { PostgrestError } from '@supabase/postgrest-js';
 
 defineEmits<{
   (e: 'show-login'): void
 }>()
 
-const departments = ref<IDepartment[]>([])
+const departments = ref<IDepartment[] | PostgrestError>([])
 
 const fullName = ref<string>('')
 const email = ref<string>('')
@@ -54,8 +55,7 @@ const isEmailValid = computed(() => {
 })
 
 onMounted(async () => {
-  const [error, data] = await getDepartments(client)
-  departments.value = data
+  departments.value = await getDepartments()
 })
 
 const submitRegister = async () => {
