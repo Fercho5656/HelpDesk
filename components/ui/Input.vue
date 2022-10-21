@@ -18,10 +18,10 @@
 import { EnvelopeIcon, UserIcon, CalendarDaysIcon } from '@heroicons/vue/24/solid/'
 
 interface Props {
-  label: string
+  label?: string
   type: InputTypes
   placeholder?: string
-  modelValue: string | number
+  modelValue?: string | number
 }
 
 defineProps<Props>()
