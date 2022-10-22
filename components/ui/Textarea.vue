@@ -3,8 +3,7 @@
     <p class="absolute top-0 -translate-y-full text-md">{{label}}</p>
     <textarea
       class="appearance-none block w-full py-3 px-4 text-md rounded-md bg-gray-200 dark:bg-gray-500 dark:placeholder-gray-300 focus:outline-none"
-      :placeholder="placeholder" :value="modelValue" @input="onInput" rows="5">
-    </textarea>
+      :placeholder="placeholder" :value="modelValue" @input="onInput" rows="5"></textarea>
   </label>
 </template>
 
