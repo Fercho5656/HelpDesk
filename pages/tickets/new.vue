@@ -7,20 +7,16 @@
       <ui-input-file v-model="file" />
       <fieldset class="flex items-center gap-x-10">
         <ui-select v-model="priorityId" class="w-full" label="Nivel de prioridad">
-          <template v-for="priority in ticketPriority">
-            <option :value="priority.id">
-              {{priority.priority}}
-            </option>
-          </template>
+          <option v-for="priority in ticketPriority" :value="priority.id" :key="priority.id">
+            {{priority.priority}}
+          </option>
         </ui-select>
         <ui-button type="button" color="info">¿Qué prioridad elijo?</ui-button>
       </fieldset>
       <ui-select v-model="destinedDepartmentId" class="w-full" label="Departamento">
-        <template v-for="department in departments">
-          <option :value="department.id">
-            {{department.name}}
-          </option>
-        </template>
+        <option v-for="department in departments" :value="department.id" :key="department.id">
+          {{department.name}}
+        </option>
       </ui-select>
       <ui-button type="submit">Enviar</ui-button>
     </form>
@@ -33,13 +29,16 @@ import { getDepartments } from "~/services/departments";
 import { sendTicket } from "~/services/tickets/ticket";
 import { PostgrestError } from '@supabase/postgrest-js';
 import ITicket from '~~/interfaces/ITicket';
+import { createConversation } from '~~/services/twilio/conversation';
+import IConversation from '~~/interfaces/IConversation';
+import { addConversation } from '~~/services/conversation';
 const ticketPriority = ref<any[] | PostgrestError>([])
 const departments = ref<any[] | PostgrestError>([])
 
 const subject = ref('')
 const body = ref('')
-const priorityId = ref(0)
-const destinedDepartmentId = ref(0)
+const priorityId = ref(1)
+const destinedDepartmentId = ref(1)
 const file = ref()
 
 onBeforeMount(async () => {
@@ -48,16 +47,33 @@ onBeforeMount(async () => {
 })
 
 const onSubmitTicket = async () => {
+  const router = useRouter()
   const user = useSupabaseUser()
+  const twilioAccessToken = await useFetch('/api/twilio/accesstoken', {
+    method: 'POST',
+    body: JSON.stringify({
+      identity: user.value?.id
+    })
+  })
+
+  const conversationName = `${user.value?.id}_${subject.value}_${Date.now()}`
+  const createdConversation = await createConversation(conversationName, twilioAccessToken.data.value)
+  console.log(createdConversation)
+  const conversationToInsert: IConversation = {
+    twilio_conversation_SID: createdConversation.sid,
+    user_creator_id: user.value?.id
+  }
+  const insertedConversation = await addConversation(conversationToInsert)
   const ticket: ITicket = {
     subject: subject.value,
     body: body.value,
     priority_id: priorityId.value,
     destined_department_id: destinedDepartmentId.value,
     user_id: user.value.id,
+    conversation_id: insertedConversation[0].id
   }
   const sentTicket = await sendTicket(ticket)
-  console.log(sentTicket)
+  router.push(`/tickets/${sentTicket[0].id}`)
 }
 </script>
 
