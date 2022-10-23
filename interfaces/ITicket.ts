@@ -12,5 +12,5 @@ export default interface ITicket {
   destined_department_id: number;
   user_id: string;
   user_attending_id?: string;
-  chat_id?: number;
+  conversation_id: number;
 }
