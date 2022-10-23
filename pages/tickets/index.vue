@@ -32,8 +32,12 @@
 </template>
 
 <script setup lang="ts">
+import { PostgrestError } from '@supabase/postgrest-js';
+import { getTickets } from '~~/services/tickets/ticket';
+
 const searchTicket = ref<string>('')
 const ticketStatusView = ref<string>('')
+const tickets = ref<any[] | PostgrestError>([])
 
 const ticketStatus = [
   {
@@ -53,6 +57,11 @@ const ticketStatus = [
     value: 'closed'
   }
 ]
+
+onBeforeMount(async () => {
+  tickets.value = await getTickets()
+  console.log(tickets.value)
+})
 </script>
 
 <style scoped>
