@@ -37,7 +37,12 @@
 const searchTicket = ref<string>('')
 const ticketStatusView = ref<string>('')
 const activeAnchorIndex = ref<number>(0)
-
+const ticketsToShow = computed(() => {
+  if (activeAnchorIndex.value === 0) return openTickets
+  if (activeAnchorIndex.value === 1) return assignedToMeTickets
+  if (activeAnchorIndex.value === 2) return tickets
+  if (activeAnchorIndex.value === 3) return closedTickets
+})
 const { tickets, openTickets, assignedToMeTickets, closedTickets } = useTickets()
 
 const ticketStatus = [
