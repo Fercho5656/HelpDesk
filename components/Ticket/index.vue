@@ -1,14 +1,29 @@
 <template>
-
+  <div class=" flex flex-col gap-y-3 p-4 rounded-md bg-slate-200 dark:bg-slate-700">
+    <header class="flex justify-between">
+      <p class="dark:text-gray-100 text-xl font-bold">{{ ticket.subject }}</p>
+      <p class="dark:text-gray-100 text-xl font-bold">{{ timeAgo }}</p>
+    </header>
+    <div>
+      <p class="dark:text-gray-200 truncate">{{ ticket.body }}</p>
+    </div>
+    <footer>
+      {{ ticket.priority_id }}
+    </footer>
+  </div>
 </template>
 
 <script setup lang="ts">
-import ITicket from '~~/interfaces/ITicket';
 
 interface Props {
-  ticket: ITicket
+  ticket: any
 }
+
+const props = defineProps<Props>()
+
+const timeAgo = useTimeAgo(new Date(props.ticket.created_at))
 </script>
 
 <style scoped>
+
 </style>
