@@ -10,12 +10,12 @@ import { HomeIcon, ChartBarIcon, ChatBubbleOvalLeftEllipsisIcon, TicketIcon } fr
 
 const routes = [
   {
-    name: 'Home',
+    name: 'Inicio',
     icon: HomeIcon,
     path: '/'
   },
   {
-    name: 'Analytics',
+    name: 'Analíticas',
     icon: ChartBarIcon,
     path: '/analytics'
   },
