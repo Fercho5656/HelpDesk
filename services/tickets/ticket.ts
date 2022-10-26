@@ -1,7 +1,7 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import ITicket from "~~/interfaces/ITicket";
 
-export const sendTicket = async (ticket: ITicket): Promise<any[] | PostgrestError> => {
+export const sendTicket = async (ticket: ITicket): Promise<ITicket[] | PostgrestError> => {
   const client = useSupabaseClient()
 
   const { data, error } = await client
@@ -16,7 +16,7 @@ export const sendTicket = async (ticket: ITicket): Promise<any[] | PostgrestErro
   return data
 }
 
-export const getTickets = async (): Promise<any[] | PostgrestError> => {
+export const getTickets = async (): Promise<ITicket[] | PostgrestError> => {
   const client = useSupabaseClient()
 
   const { data, error } = await client
