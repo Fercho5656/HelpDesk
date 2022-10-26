@@ -41,7 +41,6 @@
 import { ComputedRef } from 'vue';
 import ITicket from '~~/interfaces/ITicket';
 
-
 const searchTicket = ref<string>('')
 const ticketStatusView = ref<string>('')
 const activeAnchorIndex = ref<number>(0)
