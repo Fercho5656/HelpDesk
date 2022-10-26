@@ -27,3 +27,16 @@ export const getTickets = async (): Promise<ITicket[] | PostgrestError> => {
   }
   return data
 }
+
+export const getTicket = async (id: string): Promise<ITicket | PostgrestError> => {
+  const client = useSupabaseClient()
+
+  const { data, error } = await client
+    .from('ticket')
+    .select('*')
+    .eq('id', id)
+  if (error) {
+    return error
+  }
+  return data[0]
+}
