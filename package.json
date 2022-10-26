@@ -5,7 +5,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest"
   },
   "devDependencies": {
     "@nuxt/image-edge": "1.0.0-27719579.87dcdf2",
@@ -13,7 +14,8 @@
     "@nuxtjs/tailwindcss": "5.3.3",
     "@vueuse/core": "9.3.0",
     "@vueuse/nuxt": "9.3.0",
-    "nuxt": "3.0.0-rc.10"
+    "nuxt": "3.0.0-rc.10",
+    "vitest": "0.24.3"
   },
   "dependencies": {
     "@heroicons/vue": "2.0.11",
