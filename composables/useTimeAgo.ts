@@ -35,7 +35,7 @@ const getUnitAndValueDate = (secondsDiff: number): { value: number, unit: string
 }
 
 export const useTimeAgo = (date: Date) => {
-  const rtf = new Intl.RelativeTimeFormat()
+  const rtf = new Intl.RelativeTimeFormat('es')
   const secondsElapsed = getSecondsDiff(date.getTime())
   const { value, unit } = getUnitAndValueDate(secondsElapsed)
   return rtf.format(value, unit as Intl.RelativeTimeFormatUnit)
