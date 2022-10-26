@@ -1,5 +1,7 @@
 const DATE_UNITS = {
-  day: 86400,
+  month: 2_419_200,
+  week: 604_800,
+  day: 86_400,
   hour: 3600,
   minute: 60,
   second: 1,
