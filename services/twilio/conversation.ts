@@ -64,7 +64,7 @@ export const createConversation = async (conversationName: string, accessToken: 
  * @param {string} accessToken - The access token you get from the server.
  * @returns The conversation object
  */
-export const joinConversation = async (conversationSID: string, accessToken: string) => {
+export const getConversation = async (conversationSID: string, accessToken: string): Promise<Conversation> => {
   const client = new Client(accessToken)
 
   return new Promise((resolve, reject) => {
@@ -79,6 +79,16 @@ export const joinConversation = async (conversationSID: string, accessToken: str
       }
     })
   })
+}
+
+export const joinConversation = async (conversationSID: string, accessToken: string): Promise<Conversation> => {
+  const conversation = await getConversation(conversationSID, accessToken)
+  try {
+    const joinedConversation = await conversation.join()
+    return joinedConversation
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 /**
