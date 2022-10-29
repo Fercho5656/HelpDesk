@@ -3,7 +3,7 @@
     <header class="w-full flex items-center justify-start gap-x-5">
       <h1 class="dark:text-gray-100 text-5xl font-semibold"> {{ ticket.subject }} </h1>
       <div class="flex items-center gap-x-3">
-        <ticket-priority-badge :change-priority="true" :priority="ticket.priority_id" />
+        <ticket-priority-badge :is-editable="true" :priority="ticket.priority_id" />
         <p class="dark:text-gray-100"> {{ ticket.status_id }} </p>
       </div>
     </header>
