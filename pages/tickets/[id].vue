@@ -22,25 +22,34 @@ definePageMeta({
 
 const route = useRoute()
 const user = useSupabaseUser()
-const ticket: ITicket = await useTicket(route.params.id as string) as ITicket
+const client = useSupabaseClient()
+const ticket = ref<ITicket>(await useTicket(route.params.id as string) as ITicket)
+// const ticket: ITicket = await useTicket(route.params.id as string) as ITicket
 
 // If the user is the owner of the ticket, show the status badge else show the status badge control
-const statusComponent = computed(() => (ticket.user_id === user.value.id))
+const statusComponent = computed(() => (ticket.value.user_id === user.value.id))
 
-const showEditablePriority = computed(() => (ticket.user_attending_id === user.value.id))
+const showEditablePriority = computed(() => (ticket.value.user_attending_id === user.value.id))
 
 const onUpdateStatus = (newStatus: number) => {
-  ticket.status_id = newStatus
-  updateStatus(ticket.id, newStatus)
+  ticket.value.status_id = newStatus
+  updateStatus(ticket.value.id, newStatus)
 }
 
 const onTakeTicket = () => {
-  ticket.user_attending_id = user.value.id
-  updateAttendantUser(ticket.id, user.value.id)
+  ticket.value.user_attending_id = user.value.id
+  updateAttendantUser(ticket.value.id, user.value.id)
 }
 
+const updateSuscription = client
+  .from(`ticket:id=eq.${ticket.value.id}`)
+  .on('UPDATE', (payload) => {
+    ticket.value = payload.new
+  })
+  .subscribe()
+
 useHead({
-  title: ticket.subject
+  title: ticket.value.subject
 })
 
 </script>

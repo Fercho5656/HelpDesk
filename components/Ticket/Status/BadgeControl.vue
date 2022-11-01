@@ -60,10 +60,14 @@ const emits = defineEmits(['update:status', 'take-ticket'])
 const hover = ref(false)
 const actualStatus = ref(STATUS.find((s: any) => s.id === props.status))
 
+watch(() => props.status, (newStatus) => {
+  actualStatus.value = STATUS.find((s: any) => s.id === newStatus)
+})
+
 const openTicket = () => {
   if (confirm('¿Estás seguro de tomar este ticket?')) {
     hover.value = false
-    actualStatus.value = STATUS.find((s: any) => s.id === 2)
+    // actualStatus.value = STATUS.find((s: any) => s.id === 2)
     emits('take-ticket')
     emits('update:status', 2)
   }
@@ -72,7 +76,7 @@ const openTicket = () => {
 const deliverTicket = () => {
   if (confirm('¿Estás seguro de entregar este ticket al usuario?')) {
     hover.value = false
-    actualStatus.value = STATUS.find((s: any) => s.id === 4)
+    // actualStatus.value = STATUS.find((s: any) => s.id === 4)
     emits('update:status', 4)
   }
 }

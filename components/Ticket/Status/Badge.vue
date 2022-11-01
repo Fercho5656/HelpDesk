@@ -38,8 +38,10 @@ const STATUS = {
     style: 'bg-red-600 dark:bg-red-300 text-red-50 dark:text-red-800'
   }
 }
-
 const status = ref(STATUS[props.status])
+watch(() => props.status, (newStatus) => {
+  status.value = STATUS[newStatus]
+})
 </script>
 
 <style scoped>
