@@ -40,3 +40,29 @@ export const getTicket = async (id: string): Promise<ITicket | PostgrestError> =
   }
   return data[0]
 }
+
+export const updateStatus = async (id: number, newStatus: number): Promise<ITicket | PostgrestError> => {
+  const client = useSupabaseClient()
+
+  const { data, error } = await client
+    .from('ticket')
+    .update({ status_id: newStatus })
+    .eq('id', id)
+  if (error) {
+    return error
+  }
+  return data[0]
+}
+
+export const updateAttendantUser = async (id: number, user_attending_id: string): Promise<ITicket | PostgrestError> => {
+  const client = useSupabaseClient()
+
+  const { data, error } = await client
+    .from('ticket')
+    .update({ user_attending_id })
+    .eq('id', id)
+  if (error) {
+    return error
+  }
+  return data[0]
+}
