@@ -3,8 +3,9 @@
     <header class="w-full flex items-center justify-start gap-x-5">
       <h1 class="dark:text-gray-100 text-5xl font-semibold"> {{ ticket.subject }} </h1>
       <div class="flex items-center gap-x-3">
-        <ticket-priority-badge :is-editable="true" :priority="ticket.priority_id" />
-        <p class="dark:text-gray-100"> {{ ticket.status_id }} </p>
+        <ticket-priority-badge :priority="ticket.priority_id" :is-editable="true" />
+        <ticket-status-badge :status="ticket.status_id" v-show="statusComponent" />
+        <ticket-status-badge-control :status="ticket.status_id" v-show="!statusComponent" />
       </div>
     </header>
   </div>
@@ -18,7 +19,11 @@ definePageMeta({
 })
 
 const route = useRoute()
+const user = useSupabaseUser()
 const ticket: ITicket = await useTicket(route.params.id as string) as ITicket
+
+// If the user is the owner of the ticket, show the status badge else show the status badge control
+const statusComponent = computed(() => (ticket.user_id === user.value.id))
 
 useHead({
   title: ticket.subject
