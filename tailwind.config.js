@@ -3,7 +3,12 @@ module.exports = {
   darkMode: 'class',
   content: [],
   theme: {
-    extend: {},
+    extend: {
+      transitionProperty: {
+        'height': 'height',
+        'width': 'width',
+      }
+    },
   },
   plugins: [],
 }
