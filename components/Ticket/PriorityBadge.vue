@@ -1,21 +1,23 @@
 <template>
-  <button ref="priorityRef" :class="priority.style"
-    class="inline-flex items-center rounded-full p-2 px-5 font-bold tracking-wide" @click="show">
-    <p>
-      {{ priority.name }}
-    </p>
-    <chevron-down-icon v-if="isEditable" class="w-5" />
-  </button>
-  <ul
-    class="absolute z-10 bg-transparent dark:bg-transparent dark:text-gray-50 font-semibold rounded-md shadow-lg mt-2 translate-y-28 "
-    v-show="isEditable && showPriorities">
-    <template v-for="priority in PRIORITIES" :key="priority.name">
-      <li class="px-4 py-2 cursor-pointer first:rounded-t-md last:rounded-b-md" :class="priority.style"
-        @click="changePriority(priority.name)">
+  <div class="relative">
+    <button ref="priorityRef" :class="priority.style"
+      class="inline-flex items-center rounded-full p-2 px-5 font-bold tracking-wide" @click="showList">
+      <p>
         {{ priority.name }}
-      </li>
-    </template>
-  </ul>
+      </p>
+      <chevron-down-icon v-if="isEditable" class="w-5" />
+    </button>
+    <ul
+      class="absolute z-10 bg-transparent dark:bg-transparent dark:text-gray-50 font-semibold rounded-md shadow-lg"
+      v-show="isEditable && showPriorities">
+      <template v-for="priority in PRIORITIES" :key="priority.name">
+        <li class="px-4 py-2 cursor-pointer first:rounded-t-md last:rounded-b-md" :class="priority.style"
+          @click="changePriority(priority.name)">
+          {{ priority.name }}
+        </li>
+      </template>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -27,6 +29,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+const emits = defineEmits(['update:priority'])
 
 const PRIORITIES = {
   1: {
@@ -61,12 +64,13 @@ onClickOutside(priorityRef, () => {
 
 const changePriority = (newPriority: string) => {
   if (newPriority === priority.value.name) return
-  if (confirm(`¿Estás seguro de cambiar la prioridad a ${newPriority}?`)) {
+  if (confirm(`¿Estás seguro de cambiar la prioridad a ${newPriority.toLocaleLowerCase()}?`)) {
     priority.value = Object.values(PRIORITIES).find((p: any) => p.name === newPriority)
+    emits('update:priority', Object.keys(PRIORITIES).find((p: any) => p === newPriority))
   }
 }
 
-const show = () => {
+const showList = () => {
   if (!props.isEditable) return
   showPriorities.value = !showPriorities.value
 }
