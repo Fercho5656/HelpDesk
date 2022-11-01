@@ -5,15 +5,11 @@ export const useTicket = async (id: string) => {
   const user = useSupabaseUser()
   const ticket = await getTicket(id) as ITicket
 
-  /*
-  * Security check to make sure that the user is the attendee of the ticket. 
-  * If they are not, they are redirected to the tickets page.
-  */
+  if (ticket.user_id === user.value.id) return ticket
   if (ticket.user_attending_id !== null) {
-    if (user.value.id !== ticket.user_attending_id) {
-      const router = useRouter()
-      router.push('/tickets')
-    }
+    if (ticket.user_attending_id === user.value.id) return ticket
+    const router = useRouter()
+    return router.push('/tickets')
   }
 
   return ticket
