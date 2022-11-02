@@ -42,17 +42,21 @@ import { ComputedRef } from 'vue';
 import ITicket from '~~/interfaces/ITicket';
 
 const searchTicket = ref<string>('')
-const ticketStatusView = ref<string>('')
 const activeAnchorIndex = ref<number>(0)
 const ticketsToShow = computed((): ComputedRef<ITicket[]> => {
-  if (activeAnchorIndex.value === 0) return openTickets
-  if (activeAnchorIndex.value === 1) return assignedToMeTickets
-  if (activeAnchorIndex.value === 2) return allTickets
-  if (activeAnchorIndex.value === 3) return closedTickets
+  if (activeAnchorIndex.value === 0) return allTickets
+  if (activeAnchorIndex.value === 1) return openTickets
+  if (activeAnchorIndex.value === 2) return assignedToMeTickets
+  if (activeAnchorIndex.value === 3) return myTickets
+  if (activeAnchorIndex.value === 4) return closedTickets
 })
-const { allTickets, openTickets, assignedToMeTickets, closedTickets } = useTickets()
+const { allTickets, openTickets, assignedToMeTickets, closedTickets, myTickets } = useTickets()
 
 const ticketStatus = [
+  {
+    name: 'Todos',
+    value: 'all'
+  },
   {
     name: 'Abiertos',
     value: 'open'
@@ -62,15 +66,14 @@ const ticketStatus = [
     value: 'assigned-to-me'
   },
   {
-    name: 'Todos',
-    value: 'all'
+    name: 'Mis Tickets',
+    value: 'my-tickets'
   },
   {
     name: 'Cerrados',
     value: 'closed'
   }
 ]
-
 </script>
 
 <style scoped>
