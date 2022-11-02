@@ -1,14 +1,13 @@
 <template>
   <div class="relative">
-    <button ref="priorityRef" :class="priority.style"
+    <button ref="priorityRef" :class="actualPriority.style"
       class="inline-flex items-center rounded-full p-2 px-5 font-bold tracking-wide" @click="showList">
       <p>
-        {{ priority.name }}
+        {{ actualPriority.name }}
       </p>
       <chevron-down-icon v-if="isEditable" class="w-5" />
     </button>
-    <ul
-      class="absolute z-10 bg-transparent dark:bg-transparent dark:text-gray-50 font-semibold rounded-md shadow-lg"
+    <ul class="absolute z-10 bg-transparent dark:bg-transparent dark:text-gray-50 font-semibold rounded-md shadow-lg"
       v-show="isEditable && showPriorities">
       <template v-for="priority in PRIORITIES" :key="priority.name">
         <li class="px-4 py-2 cursor-pointer first:rounded-t-md last:rounded-b-md" :class="priority.style"
@@ -54,18 +53,22 @@ const PRIORITIES = {
   }
 }
 
-const priority = ref(PRIORITIES[props.priority])
+const actualPriority = ref(PRIORITIES[props.priority])
 const priorityRef = ref(null)
 const showPriorities = ref<boolean>(false)
+
+watch(() => props.priority, (newPriority) => {
+  actualPriority.value = PRIORITIES[newPriority]
+})
 
 onClickOutside(priorityRef, () => {
   showPriorities.value = false
 })
 
 const changePriority = (newPriority: string) => {
-  if (newPriority === priority.value.name) return
+  if (newPriority === actualPriority.value.name) return
   if (confirm(`¿Estás seguro de cambiar la prioridad a ${newPriority.toLocaleLowerCase()}?`)) {
-    priority.value = Object.values(PRIORITIES).find((p: any) => p.name === newPriority)
+    actualPriority.value = Object.values(PRIORITIES).find((p: any) => p.name === newPriority)
     emits('update:priority', Object.keys(PRIORITIES).find((p: any) => p === newPriority))
   }
 }

@@ -11,6 +11,7 @@ const STATUS = {
 }
 
 export const useTickets = () => {
+  const client = useSupabaseClient()
   const user = useSupabaseUser()
   const tickets = useState<ITicket[] | PostgrestError>('tickets', () => [])
 
@@ -23,7 +24,12 @@ export const useTickets = () => {
 
   const openTickets = computed(() => {
     const ticketsArray = tickets.value as ITicket[]
-    return ticketsArray.filter((ticket) => ticket.status_id = STATUS.OPEN)
+    return ticketsArray.filter((ticket) => ticket.status_id === STATUS.OPEN)
+  })
+
+  const myTickets = computed(() => {
+    const ticketsArray = tickets.value as ITicket[]
+    return ticketsArray.filter((ticket) => ticket.user_id === user?.value.id)
   })
 
   const assignedToMeTickets = computed(() => {
@@ -40,11 +46,24 @@ export const useTickets = () => {
     return tickets.value as ITicket[]
   })
 
+  const updateTicketsSubscribe = client
+    .from('ticket')
+    .on('*', (payload) => {
+      if (payload.eventType === 'UPDATE') {
+        const updatedTicket = payload.new as ITicket
+        const updatedTickets = tickets.value as ITicket[]
+        const index = updatedTickets.findIndex((ticket) => ticket.id === updatedTicket.id)
+        updatedTickets[index] = updatedTicket
+        tickets.value = updatedTickets
+      }
+    })
+    .subscribe()
 
   return {
     allTickets,
     openTickets,
     assignedToMeTickets,
     closedTickets,
+    myTickets,
   }
 }
