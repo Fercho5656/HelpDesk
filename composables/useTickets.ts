@@ -56,6 +56,13 @@ export const useTickets = () => {
         updatedTickets[index] = updatedTicket
         tickets.value = updatedTickets
       }
+      if (payload.eventType === 'INSERT') {
+        const newTicket = payload.new as ITicket
+        const updatedTickets = tickets.value as ITicket[]
+        updatedTickets.push(newTicket)
+        tickets.value = updatedTickets
+        // alert user
+      }
     })
     .subscribe()
 
