@@ -8,14 +8,14 @@
       <fieldset class="flex items-center gap-x-10">
         <ui-select v-model="priorityId" class="w-full" label="Nivel de prioridad">
           <option v-for="priority in ticketPriority" :value="priority.id" :key="priority.id">
-            {{priority.priority}}
+            {{ priority.priority }}
           </option>
         </ui-select>
         <ui-button type="button" color="info">¿Qué prioridad elijo?</ui-button>
       </fieldset>
       <ui-select v-model="destinedDepartmentId" class="w-full" label="Departamento">
         <option v-for="department in departments" :value="department.id" :key="department.id">
-          {{department.name}}
+          {{ department.name }}
         </option>
       </ui-select>
       <ui-button type="submit">Enviar</ui-button>
@@ -32,6 +32,9 @@ import ITicket from '~~/interfaces/ITicket';
 import { createConversation } from '~~/services/twilio/conversation';
 import IConversation from '~~/interfaces/IConversation';
 import { addConversation } from '~~/services/conversation';
+import { useConversationStore } from '~~/store/conversation.store';
+
+const conversationStore = useConversationStore()
 const ticketPriority = ref<any[] | PostgrestError>([])
 const departments = ref<any[] | PostgrestError>([])
 
@@ -49,15 +52,18 @@ onBeforeMount(async () => {
 const onSubmitTicket = async () => {
   const router = useRouter()
   const user = useSupabaseUser()
-  const twilioAccessToken = await useFetch('/api/twilio/accesstoken', {
+  /* const twilioAccessToken = await useFetch('/api/twilio/accesstoken', {
     method: 'POST',
     body: JSON.stringify({
       identity: user.value?.id
     })
-  })
+  }) */
+
+  const twilioAccessToken = conversationStore.getTwilioAccessToken
+  console.log('twilioAccessToken', twilioAccessToken)
 
   const conversationName = `${user.value?.id}_${subject.value}_${Date.now()}`
-  const createdConversation = await createConversation(conversationName, twilioAccessToken.data.value!)
+  const createdConversation = await createConversation(conversationName, twilioAccessToken)
   console.log(createdConversation)
   const conversationToInsert: IConversation = {
     twilio_conversation_SID: createdConversation.sid,

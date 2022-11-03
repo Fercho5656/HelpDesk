@@ -45,7 +45,7 @@ const submitLogin = async () => {
       identity: user?.id
     })
   })
-  console.log(twilioAccessToken)
+  console.log(twilioAccessToken.data.value)
   const twilioToken = useStorage('twilioToken', twilioAccessToken.data.value)
   conversationStore.setTwilioAccessToken(twilioAccessToken.data.value)
   console.log(error)
