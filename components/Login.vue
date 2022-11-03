@@ -16,6 +16,8 @@
 </template>
 
 <script setup lang="ts">
+import { useConversationStore } from '~~/store/conversation.store';
+import { useStorage } from '@vueuse/core'
 import { login } from '../services/auth'
 
 defineEmits<{
@@ -25,6 +27,7 @@ defineEmits<{
 const email = ref<string>('')
 const password = ref<string>('')
 
+const conversationStore = useConversationStore()
 const client = useSupabaseClient()
 
 const isEmailValid = computed(() => {
@@ -36,6 +39,15 @@ const submitLogin = async () => {
     return alert('El correo electrónico no es válido')
   } */
   const [user, error] = await login(client, email.value, password.value)
+  const twilioAccessToken = await useFetch('/api/twilio/accesstoken', {
+    method: 'POST',
+    body: JSON.stringify({
+      identity: user?.id
+    })
+  })
+  console.log(twilioAccessToken)
+  const twilioToken = useStorage('twilioToken', twilioAccessToken.data.value)
+  conversationStore.setTwilioAccessToken(twilioAccessToken.data.value)
   console.log(error)
   console.log(user)
 }
