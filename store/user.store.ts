@@ -29,6 +29,9 @@ export const useUserStore = defineStore({
       const [profilePic, profilePicError] = getProfilePic(client, state.user?.email)
       if (profilePicError) return '/default-profile-pic.png'
       return [profilePic, null]
+    },
+    getUserId: (state: RootState) => {
+      return state.user?.id
     }
   },
   actions: {
