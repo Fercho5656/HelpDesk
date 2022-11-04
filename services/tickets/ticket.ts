@@ -33,8 +33,9 @@ export const getTicket = async (id: string): Promise<ITicket | PostgrestError> =
 
   const { data, error } = await client
     .from('ticket')
-    .select('*')
+    .select('*, conversation(*)')
     .eq('id', id)
+    
   if (error) {
     return error
   }
