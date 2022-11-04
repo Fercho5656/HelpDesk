@@ -65,6 +65,7 @@ const onSubmitTicket = async () => {
   const conversationName = `${user.value?.id}_${subject.value}_${Date.now()}`
   const createdConversation = await createConversation(conversationName, twilioAccessToken)
   console.log(createdConversation)
+  createdConversation.sendMessage(body.value)
   const conversationToInsert: IConversation = {
     twilio_conversation_SID: createdConversation.sid,
     user_creator_id: user.value?.id
