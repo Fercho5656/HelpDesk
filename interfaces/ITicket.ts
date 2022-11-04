@@ -3,6 +3,7 @@ export default interface ITicket {
   created_at?: Date;
   returned_at?: Date;
   commited_at?: Date;
+  conversation?: any;
   closed_at?: Date;
   updated_at?: Date;
   subject: string;
