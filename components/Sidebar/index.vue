@@ -1,5 +1,5 @@
 <template>
-  <aside class="flex-col p-5 border-r-[1px]">
+  <aside class="flex-col p-5">
     <icons-campo-azul class="mx-auto mb-10" />
     <ul class=" flex flex-col items-center md:items-start gap-y-5">
       <li v-for="route in routes" :key="route.name"
