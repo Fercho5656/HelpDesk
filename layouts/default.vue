@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-gray-50 dark:bg-slate-800 h-screen grid grid-cols-12">
-    <sidebar class="hidden sticky h-full col-span-4 md:col-span-3 xl:col-span-2 sm:flex" :routes="routes" />
+  <div class="bg-gray-50 dark:bg-slate-800 grid grid-cols-12">
+    <sidebar class="hidden sticky top-0 h-screen overflow-auto col-span-4 md:col-span-3 xl:col-span-2 sm:flex" :routes="routes" />
     <div class="m-10 col-span-12 sm:col-span-8 md:col-span-9 xl:col-span-10">
       <slot />
     </div>
