@@ -1,26 +1,24 @@
 <template>
-  <div class="m-10 col-span-12 sm:col-span-8 md:col-span-9 xl:col-span-10">
-    <h1 class="text-5xl dark:text-gray-200">Nuevo Ticket</h1>
-    <form @submit.prevent="onSubmitTicket" class="mt-10 flex flex-col gap-y-8">
-      <ui-input v-model="subject" type="text" label="Asunto" placeholder="Olvidé mi contraseña" />
-      <ui-textarea v-model="body" label="Descripción" placeholder="Mi contraseña es: 123456" />
-      <ui-input-file v-model="file" />
-      <fieldset class="flex items-center gap-x-10">
-        <ui-select v-model="priorityId" class="w-full" label="Nivel de prioridad">
-          <option v-for="priority in ticketPriority" :value="priority.id" :key="priority.id">
-            {{ priority.priority }}
-          </option>
-        </ui-select>
-        <ui-button type="button" color="info">¿Qué prioridad elijo?</ui-button>
-      </fieldset>
-      <ui-select v-model="destinedDepartmentId" class="w-full" label="Departamento">
-        <option v-for="department in departments" :value="department.id" :key="department.id">
-          {{ department.name }}
+  <h1 class="text-5xl dark:text-gray-200">Nuevo Ticket</h1>
+  <form @submit.prevent="onSubmitTicket" class="mt-10 flex flex-col gap-y-8">
+    <ui-input v-model="subject" type="text" label="Asunto" placeholder="Olvidé mi contraseña" />
+    <ui-textarea v-model="body" label="Descripción" placeholder="Mi contraseña es: 123456" />
+    <ui-input-file v-model="file" />
+    <fieldset class="flex items-center gap-x-10">
+      <ui-select v-model="priorityId" class="w-full" label="Nivel de prioridad">
+        <option v-for="priority in ticketPriority" :value="priority.id" :key="priority.id">
+          {{ priority.priority }}
         </option>
       </ui-select>
-      <ui-button type="submit">Enviar</ui-button>
-    </form>
-  </div>
+      <ui-button type="button" color="info">¿Qué prioridad elijo?</ui-button>
+    </fieldset>
+    <ui-select v-model="destinedDepartmentId" class="w-full" label="Departamento">
+      <option v-for="department in departments" :value="department.id" :key="department.id">
+        {{ department.name }}
+      </option>
+    </ui-select>
+    <ui-button type="submit">Enviar</ui-button>
+  </form>
 </template>
 
 <script setup lang="ts">

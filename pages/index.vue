@@ -1,7 +1,5 @@
 <template>
-  <div class="col-span-8 md:col-span-9 xl:col-span-10">
-    <h2>Bienvenido, haz iniciado sesión</h2>
-  </div>
+  <h2>Bienvenido, haz iniciado sesión</h2>
 </template>
 
 <script setup lang="ts">

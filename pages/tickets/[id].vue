@@ -1,15 +1,13 @@
 <template>
-  <div class="m-10 col-span-12 sm:col-span-8 md:col-span-9 xl:col-span-10">
-    <header class="w-full flex items-center justify-start gap-x-5">
-      <h1 class="dark:text-gray-100 text-5xl font-semibold"> {{ ticket.subject }} </h1>
-      <div class="flex items-center gap-x-3">
-        <ticket-priority-badge :priority="ticket.priority_id" :is-editable="showEditablePriority" />
-        <ticket-status-badge :status="ticket.status_id" v-if="statusComponent" />
-        <ticket-status-badge-control @take-ticket="onTakeTicket" @update:status="onUpdateStatus"
-          :status="ticket.status_id" v-else />
-      </div>
-    </header>
-  </div>
+  <header class="w-full flex items-center justify-start gap-x-5">
+    <h1 class="dark:text-gray-100 text-5xl font-semibold"> {{ ticket.subject }} </h1>
+    <div class="flex items-center gap-x-3">
+      <ticket-priority-badge :priority="ticket.priority_id" :is-editable="showEditablePriority" />
+      <ticket-status-badge :status="ticket.status_id" v-if="statusComponent" />
+      <ticket-status-badge-control @take-ticket="onTakeTicket" @update:status="onUpdateStatus"
+        :status="ticket.status_id" v-else />
+    </div>
+  </header>
 </template>
 
 <script setup lang="ts">
