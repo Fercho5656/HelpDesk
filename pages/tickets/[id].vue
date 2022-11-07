@@ -10,16 +10,20 @@
       </div>
     </header>
     <main>
-      {{ conversationMessages }}
+      <div class=" flex flex-col">
+        <div v-for="message in conversationMessages" :key="message.sid"
+          :class="message.author === user.id ? 'text-end' : 'text-start'" class="text-4xl text-white">
+          {{ message.body }}
+        </div>
+      </div>
       <!-- <conversation :messages="conversationMessages" /> -->
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Message } from '@twilio/conversations';
-import { Client } from 'twilio-sync';
 import ITicket from '~~/interfaces/ITicket';
+import IMessage from '~~/interfaces/IMessage';
 import { addConversation } from '~~/services/conversation';
 import { updateStatus, updateAttendantUser, updateConversationId } from '~~/services/tickets/ticket';
 import { createConversation, getConversation, joinConversation } from '~~/services/twilio/conversation';
@@ -40,16 +44,34 @@ const statusComponent = computed(() => (ticket.value.user_id === user.value.id))
 const showEditablePriority = computed(() => (ticket.value.user_attending_id === user.value.id))
 const showConversationNotAvailable = computed(() => (ticket.value.conversation_id == null))
 
-const conversationMessages = ref<Array<Message>>([])
+const conversationMessages = ref<Array<IMessage>>([])
 
-onMounted(async () => {
+onBeforeMount(async () => {
   if (ticket.value.conversation_id == null) return
-  // const conversation = await getConversation(conversationStore.getTwilioAccessToken, ticket.value.conversation.twilio_conversation_SID)
-    const conversation = await getConversation(ticket.value.conversation.twilio_conversation_SID, conversationStore.getTwilioAccessToken)
-    const messages = await conversation.getMessages()
-    //@ts-ignore
-    conversationMessages.value = messages.items
-    console.log(conversationMessages.value)
+  const conversation = await getConversation(ticket.value.conversation.twilio_conversation_SID, conversationStore.getTwilioAccessToken)
+  const messages = await conversation.getMessages()
+  conversationMessages.value = messages.items.map((message: any) => {
+    const { attachedMedia, attributes, author, body, dateCreated, dateUpdated, index, lastUpdatedBy, media, participantSid, sid, subject, type } = message
+    return {
+      attachedMedia,
+      attributes,
+      author,
+      body,
+      dateCreated,
+      dateUpdated,
+      index,
+      lastUpdatedBy,
+      media,
+      participantSid,
+      sid,
+      subject,
+      type
+    } as IMessage
+  })
+
+  conversation.on('messageAdded', (message: IMessage) => {
+    conversationMessages.value.push(message)
+  })
 })
 
 const onUpdateStatus = (newStatus: number) => {
