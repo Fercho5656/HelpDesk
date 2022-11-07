@@ -10,13 +10,8 @@
       </div>
     </header>
     <main>
-      <div class=" flex flex-col">
-        <div v-for="message in conversationMessages" :key="message.sid"
-          :class="message.author === user.id ? 'text-end' : 'text-start'" class="text-4xl text-white">
-          {{ message.body }}
-        </div>
-      </div>
-      <!-- <conversation :messages="conversationMessages" /> -->
+      <conversation-twilio :messages="conversationMessages" />
+      <input type="text" v-model="newMessage" @keyup.enter="onSendMessage" />
     </main>
   </div>
 </template>
@@ -28,6 +23,7 @@ import { addConversation } from '~~/services/conversation';
 import { updateStatus, updateAttendantUser, updateConversationId } from '~~/services/tickets/ticket';
 import { createConversation, getConversation, joinConversation } from '~~/services/twilio/conversation';
 import { useConversationStore } from '~~/store/conversation.store';
+import { Conversation } from '@twilio/conversations';
 
 definePageMeta({
   middleware: ['check-ticket']
@@ -44,12 +40,15 @@ const statusComponent = computed(() => (ticket.value.user_id === user.value.id))
 const showEditablePriority = computed(() => (ticket.value.user_attending_id === user.value.id))
 const showConversationNotAvailable = computed(() => (ticket.value.conversation_id == null))
 
+const conversation = ref<Conversation | null>(null)
 const conversationMessages = ref<Array<IMessage>>([])
+const newMessage = ref<string>('')
 
 onBeforeMount(async () => {
   if (ticket.value.conversation_id == null) return
-  const conversation = await getConversation(ticket.value.conversation.twilio_conversation_SID, conversationStore.getTwilioAccessToken)
-  const messages = await conversation.getMessages()
+  //@ts-ignore
+  conversation.value = await getConversation(ticket.value.conversation.twilio_conversation_SID, conversationStore.getTwilioAccessToken)
+  const messages = await conversation.value.getMessages()
   conversationMessages.value = messages.items.map((message: any) => {
     const { attachedMedia, attributes, author, body, dateCreated, dateUpdated, index, lastUpdatedBy, media, participantSid, sid, subject, type } = message
     return {
@@ -69,7 +68,7 @@ onBeforeMount(async () => {
     } as IMessage
   })
 
-  conversation.on('messageAdded', (message: IMessage) => {
+  conversation.value.on('messageAdded', (message: IMessage) => {
     conversationMessages.value.push(message)
   })
 })
@@ -114,6 +113,14 @@ const updateSuscription = client
     ticket.value = payload.new
   })
   .subscribe()
+
+const onSendMessage = async () => {
+  if (conversation.value === null) return
+  if (newMessage.value === '') return // TODO: Show error message
+  console.log(`Sending ${newMessage.value}`)
+  conversation.value.sendMessage(newMessage.value)
+  newMessage.value = ''
+}
 
 useHead({
   title: ticket.value.subject
