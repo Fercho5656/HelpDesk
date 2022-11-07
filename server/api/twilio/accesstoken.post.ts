@@ -2,6 +2,7 @@ import AccessToken from 'twilio/lib/jwt/AccessToken';
 
 /* Receives a user identity string and returns a twilio valid token. */
 export default defineEventHandler(async (event) => {
+  const NINE_HOURS = 60 * 60 * 9;
   const body = await useBody(event)
   const { identity } = body
   const { TWILIO_ACCOUNT_SID, TWILIO_API_KEY, TWILIO_API_SECRET, TWILIO_SERVICE_SID } = process.env
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
     TWILIO_ACCOUNT_SID,
     TWILIO_API_KEY,
     TWILIO_API_SECRET,
-    { identity: identity }
+    { identity: identity,  ttl: NINE_HOURS }
   )
 
   token.addGrant(chatGrant)
