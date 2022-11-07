@@ -1,24 +1,26 @@
 <template>
-  <h1 class="text-5xl dark:text-gray-200">Nuevo Ticket</h1>
-  <form @submit.prevent="onSubmitTicket" class="mt-10 flex flex-col gap-y-8">
-    <ui-input v-model="subject" type="text" label="Asunto" placeholder="Olvidé mi contraseña" />
-    <ui-textarea v-model="body" label="Descripción" placeholder="Mi contraseña es: 123456" />
-    <ui-input-file v-model="file" />
-    <fieldset class="flex items-center gap-x-10">
-      <ui-select v-model="priorityId" class="w-full" label="Nivel de prioridad">
-        <option v-for="priority in ticketPriority" :value="priority.id" :key="priority.id">
-          {{ priority.priority }}
+  <div>
+    <h1 class="text-5xl dark:text-gray-200">Nuevo Ticket</h1>
+    <form @submit.prevent="onSubmitTicket" class="mt-10 flex flex-col gap-y-8">
+      <ui-input v-model="subject" type="text" label="Asunto" placeholder="Olvidé mi contraseña" />
+      <ui-textarea v-model="body" label="Descripción" placeholder="Mi contraseña es: 123456" />
+      <ui-input-file v-model="file" />
+      <fieldset class="flex items-center gap-x-10">
+        <ui-select v-model="priorityId" class="w-full" label="Nivel de prioridad">
+          <option v-for="priority in ticketPriority" :value="priority.id" :key="priority.id">
+            {{ priority.priority }}
+          </option>
+        </ui-select>
+        <ui-button type="button" color="info">¿Qué prioridad elijo?</ui-button>
+      </fieldset>
+      <ui-select v-model="destinedDepartmentId" class="w-full" label="Departamento">
+        <option v-for="department in departments" :value="department.id" :key="department.id">
+          {{ department.name }}
         </option>
       </ui-select>
-      <ui-button type="button" color="info">¿Qué prioridad elijo?</ui-button>
-    </fieldset>
-    <ui-select v-model="destinedDepartmentId" class="w-full" label="Departamento">
-      <option v-for="department in departments" :value="department.id" :key="department.id">
-        {{ department.name }}
-      </option>
-    </ui-select>
-    <ui-button type="submit">Enviar</ui-button>
-  </form>
+      <ui-button type="submit">Enviar</ui-button>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -50,32 +52,13 @@ onBeforeMount(async () => {
 const onSubmitTicket = async () => {
   const router = useRouter()
   const user = useSupabaseUser()
-  /* const twilioAccessToken = await useFetch('/api/twilio/accesstoken', {
-    method: 'POST',
-    body: JSON.stringify({
-      identity: user.value?.id
-    })
-  }) */
 
-  const twilioAccessToken = conversationStore.getTwilioAccessToken
-  console.log('twilioAccessToken', twilioAccessToken)
-
-  const conversationName = `${user.value?.id}_${subject.value}_${Date.now()}`
-  const createdConversation = await createConversation(conversationName, twilioAccessToken)
-  console.log(createdConversation)
-  createdConversation.sendMessage(body.value)
-  const conversationToInsert: IConversation = {
-    twilio_conversation_SID: createdConversation.sid,
-    user_creator_id: user.value?.id
-  }
-  const insertedConversation = await addConversation(conversationToInsert)
   const ticket: ITicket = {
     subject: subject.value,
     body: body.value,
     priority_id: priorityId.value,
     destined_department_id: destinedDepartmentId.value,
     user_id: user.value.id,
-    conversation_id: insertedConversation[0].id
   }
   const sentTicket = await sendTicket(ticket)
   router.push(`/tickets/${sentTicket[0].id}`)
