@@ -35,7 +35,7 @@ export const getTicket = async (id: string): Promise<ITicket | PostgrestError> =
     .from('ticket')
     .select('*, conversation(*)')
     .eq('id', id)
-    
+
   if (error) {
     return error
   }
@@ -61,6 +61,19 @@ export const updateAttendantUser = async (id: number, user_attending_id: string)
   const { data, error } = await client
     .from('ticket')
     .update({ user_attending_id })
+    .eq('id', id)
+  if (error) {
+    return error
+  }
+  return data[0]
+}
+
+export const updateConversationId = async (id: number, conversation_id: number): Promise<ITicket | PostgrestError> => {
+  const client = useSupabaseClient()
+
+  const { data, error } = await client
+    .from('ticket')
+    .update({ conversation_id })
     .eq('id', id)
   if (error) {
     return error
