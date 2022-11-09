@@ -1,17 +1,19 @@
 <template>
-  <div>
-    <header class="w-full flex items-center justify-start gap-x-5">
-      <h1 class="dark:text-gray-100 text-5xl font-semibold"> {{ ticket.subject }} </h1>
-      <div class="flex items-center gap-x-3">
+  <div class="bg-slate-800">
+    <header class="w-full bg-inherit sticky top-0 z-10 mt-3 p-3 flex items-center justify-start gap-x-5">
+      <h1 class="dark:text-gray-100 text-3xl font-semibold"> {{ ticket.subject }} </h1>
+      <div class="flex items-center gap-x-3 flex-wrap">
         <ticket-priority-badge :priority="ticket.priority_id" :is-editable="showEditablePriority" />
         <ticket-status-badge :status="ticket.status_id" v-if="statusComponent" />
         <ticket-status-badge-control @take-ticket="onTakeTicket" @update:status="onUpdateStatus"
           :status="ticket.status_id" v-else />
       </div>
     </header>
-    <main>
-      <conversation-twilio :messages="conversationMessages" />
-      <input type="text" v-model="newMessage" @keyup.enter="onSendMessage" />
+    <main class="py-3">
+      <div class="bg-slate-700 p-3 sm:rounded-md">
+        <conversation-twilio :messages="conversationMessages" />
+        <input class="w-full p-1" type="text" v-model="newMessage" @keyup.enter="onSendMessage" />
+      </div>
     </main>
   </div>
 </template>
