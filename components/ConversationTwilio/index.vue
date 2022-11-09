@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-y-3 w-full p-3 overflow-y-scroll">
+  <div class="flex flex-col md:h-screen/2 gap-y-3 w-full p-3 overflow-y-scroll">
     <conversation-twilio-message v-for="message in messages" :key="message.sid" :is-author="message.author === userId"
       :message="message" />
   </div>
