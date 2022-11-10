@@ -3,7 +3,8 @@
     <header class="w-full bg-inherit sticky top-0 z-10 mt-3 p-3 flex items-center justify-start gap-x-5">
       <h1 class="dark:text-gray-100 text-3xl font-semibold"> {{ ticket.subject }} </h1>
       <div class="flex items-center gap-x-3 flex-wrap">
-        <ticket-priority-badge :priority="ticket.priority_id" :is-editable="showEditablePriority" @update:priority="onUpdatePriority" />
+        <ticket-priority-badge :priority="ticket.priority_id" :is-editable="showEditablePriority"
+          @update:priority="onUpdatePriority" />
         <ticket-status-badge :status="ticket.status_id" v-if="statusComponent" />
         <ticket-status-badge-control @take-ticket="onTakeTicket" @update:status="onUpdateStatus"
           :status="ticket.status_id" v-else />
@@ -76,12 +77,10 @@ onBeforeMount(async () => {
 })
 
 const onUpdateStatus = async (newStatus: number) => {
-  ticket.value.status_id = newStatus
   await updateStatus(ticket.value.id, newStatus)
 }
 
 const onUpdatePriority = async (newPriority: number) => {
-  ticket.value.priority_id = newPriority
   await updatePriority(ticket.value.id, newPriority)
 }
 
@@ -117,6 +116,34 @@ const onTakeTicket = async () => {
 const updateSuscription = client
   .from(`ticket:id=eq.${ticket.value.id}`)
   .on('UPDATE', (payload) => {
+    // TO CHECK
+    /* if (ticket.value.conversation_id != null) {
+      //@ts-ignore
+      conversation.value = getConversation(ticket.value.conversation.twilio_conversation_SID, conversationStore.getTwilioAccessToken)
+    } */
+
+    if (ticket.value.status_id !== payload.new.status_id) {
+      useToast({
+        status: 'success',
+        title: 'Estatus Actualizado',
+        text: 'El estatus del ticket ha sido actualizado',
+        type: 1,
+        autoclose: true,
+        autotimeout: 3000
+      })
+
+    }
+    if (ticket.value.priority_id !== payload.new.priority_id) {
+      useToast({
+        status: 'success',
+        title: 'Prioridad Actualizada',
+        text: 'La prioridad del ticket ha sido actualizada',
+        type: 3,
+        autoclose: true,
+        autotimeout: 3000
+      })
+
+    }
     ticket.value = payload.new
   })
   .subscribe()
