@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-800">
+  <div class="bg-white dark:bg-slate-800">
     <header class="w-full bg-inherit sticky top-0 z-10 mt-3 p-3 flex items-center justify-start gap-x-5">
       <h1 class="dark:text-gray-100 text-3xl font-semibold"> {{ ticket.subject }} </h1>
       <div class="flex items-center gap-x-3 flex-wrap">
@@ -11,7 +11,7 @@
       </div>
     </header>
     <main class="py-3">
-      <div class="bg-slate-700 p-3 sm:rounded-md">
+      <div class="bg-gray-200 dark:bg-slate-700 p-3 sm:rounded-md">
         <conversation-twilio :messages="conversationMessages" />
         <input class="w-full p-1" type="text" v-model="newMessage" @keyup.enter="onSendMessage" />
       </div>
