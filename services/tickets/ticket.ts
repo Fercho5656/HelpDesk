@@ -55,6 +55,19 @@ export const updateStatus = async (id: number, newStatus: number): Promise<ITick
   return data[0]
 }
 
+export const updatePriority = async (id: number, newPriority: number): Promise<ITicket | PostgrestError> => {
+  const client = useSupabaseClient()
+
+  const { data, error } = await client
+    .from('ticket')
+    .update({ priority_id: newPriority })
+    .eq('id', id)
+  if (error) {
+    return error
+  }
+  return data[0]
+}
+
 export const updateAttendantUser = async (id: number, user_attending_id: string): Promise<ITicket | PostgrestError> => {
   const client = useSupabaseClient()
 
