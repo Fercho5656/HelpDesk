@@ -63,7 +63,7 @@ export const useTickets = () => {
         tickets.value = updatedTickets
         useToast({
           title: 'Se ha abierto un nuevo ticket',
-          text: ` <nuxt-link to="/${newTicket.id}"> Ticket #${newTicket.id} ha sido abierto </nuxt-link>`,
+          text: `Ticket #${newTicket.id}`,
           status: 'info',
         })
         // alert user
