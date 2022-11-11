@@ -9,7 +9,7 @@
   </ticket-status-button>
   <ticket-status-button @click="deliverTicket" :class="actualStatus.style" v-if="actualStatus.id === 3"
     @mouseover="hover = true" @mouseleave="hover = false">
-    <p>{{ hover ? 'Cerrar Ticket' : 'Cerrado' }}</p>
+    <p>{{ hover ? 'Entregar Ticket' : 'Regresado' }}</p>
   </ticket-status-button>
   <ticket-status-button class="pointer-events-none" :class="actualStatus.style"
     v-if="actualStatus.id === 4 || actualStatus.id === 5">
