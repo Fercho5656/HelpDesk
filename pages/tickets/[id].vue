@@ -5,15 +5,18 @@
       <div class="flex items-center gap-x-3 flex-wrap">
         <ticket-priority-badge :priority="ticket.priority_id" :is-editable="showEditablePriority"
           @update:priority="onUpdatePriority" />
-        <ticket-status-badge :status="ticket.status_id" v-if="statusComponent" />
+        <ticket-status-badge :status="ticket.status_id" @update:status="onUpdateStatus" v-if="statusComponent" />
         <ticket-status-badge-control @take-ticket="onTakeTicket" @update:status="onUpdateStatus"
           :status="ticket.status_id" v-else />
       </div>
     </header>
-    <main class="py-3">
-      <div class="bg-gray-200 dark:bg-slate-700 p-3 sm:rounded-md">
+    <main class="py-3 relative">
+      <conversation-twilio-not-available v-if="showConversationNotAvailable" />
+      <div class="bg-gray-200 dark:bg-slate-700 p-3 sm:rounded-md"
+        :class="showConversationNotAvailable ? 'blur pointer-events-none' : ''">
         <conversation-twilio :messages="conversationMessages" />
-        <input class="w-full p-1" type="text" v-model="newMessage" @keyup.enter="onSendMessage" />
+        <input :disabled="showConversationNotAvailable" class="w-full p-1" type="text" v-model="newMessage"
+          @keyup.enter="onSendMessage" />
       </div>
     </main>
   </div>
@@ -53,21 +56,11 @@ onBeforeMount(async () => {
   conversation.value = await getConversation(ticket.value.conversation.twilio_conversation_SID, conversationStore.getTwilioAccessToken)
   const messages = await conversation.value.getMessages()
   conversationMessages.value = messages.items.map((message: any) => {
-    const { attachedMedia, attributes, author, body, dateCreated, dateUpdated, index, lastUpdatedBy, media, participantSid, sid, subject, type } = message
+    const { attachedMedia, attributes, author, body, dateCreated, dateUpdated,
+      index, lastUpdatedBy, media, participantSid, sid, subject, type } = message
     return {
-      attachedMedia,
-      attributes,
-      author,
-      body,
-      dateCreated,
-      dateUpdated,
-      index,
-      lastUpdatedBy,
-      media,
-      participantSid,
-      sid,
-      subject,
-      type
+      attachedMedia, attributes, author, body, dateCreated, dateUpdated,
+      index, lastUpdatedBy, media, participantSid, sid, subject, type
     } as IMessage
   })
 
