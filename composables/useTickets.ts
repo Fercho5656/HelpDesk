@@ -61,6 +61,11 @@ export const useTickets = () => {
         const updatedTickets = tickets.value as ITicket[]
         updatedTickets.push(newTicket)
         tickets.value = updatedTickets
+        useToast({
+          title: 'Se ha abierto un nuevo ticket',
+          text: ` <nuxt-link to="/${newTicket.id}"> Ticket #${newTicket.id} ha sido abierto </nuxt-link>`,
+          status: 'info',
+        })
         // alert user
       }
     })
