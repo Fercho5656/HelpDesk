@@ -85,11 +85,21 @@ const submitRegister = async () => {
     return alert(uploadError.message)
   }
 
+  const createdTwilioUser = await useFetch('/api/twilio/createparticipant', {
+    method: 'POST',
+    body: {
+      identity: user.id,
+      friendlyName: fullName.value
+    }
+  })
+
   alert('Cuenta creada, revisa tu correo para activar tu cuenta')
 
   console.log(user)
   console.log(session)
   console.log(uploadData)
+  console.log(createdTwilioUser)
+
 }
 </script>
 
