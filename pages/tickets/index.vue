@@ -1,32 +1,34 @@
 <template>
-  <div>
-    <header class="w-full flex justify-between items-center">
-      <h1 class=" text-5xl dark:text-gray-200">Tickets</h1>
-      <ui-button color="primary">
-        <a href="/tickets/new">
-          Abrir Ticket
-        </a>
-      </ui-button>
-    </header>
-    <nav class="flex justify-center mt-5 items-center gap-x-5">
-      <ui-select class="md:hidden" v-model.number="activeAnchorIndex">
-        <template v-for="(status, index) in ticketStatus" :key="status.id">
-          <option :value="index">
-            {{ status.name }}
-          </option>
-        </template>
-      </ui-select>
-      <ul class="hidden w-full md:flex gap-x-5 justify-start">
-        <template v-for="(status, index) in ticketStatus" :key="status.name">
-          <a :href="`#${status.value}`" :class="activeAnchorIndex === index ? 'border-b-2 border-red-500 pb-0.5' : ''"
-            @click="activeAnchorIndex = index">
-            <li class="md:text-lg lg:text-2xl truncate dark:text-gray-200">{{ status.name }}</li>
+  <div class="p-3 py-5 bg-white dark:bg-slate-800">
+    <header class="w-full bg-inherit p-3 sticky top-0 z-10 flex flex-col justify-between items-center">
+      <div class="flex w-full justify-between">
+        <h1 class=" text-5xl dark:text-gray-200">Tickets</h1>
+        <ui-button color="primary">
+          <a href="/tickets/new">
+            Abrir Ticket
           </a>
-        </template>
-      </ul>
-      <ui-input type="text" placeholder="Buscar Tickets" v-model="searchTicket" />
-      <!-- Filter Button -->
-    </nav>
+        </ui-button>
+      </div>
+      <nav class="flex justify-center mt-5 items-center gap-x-5">
+        <ui-select class="md:hidden" v-model.number="activeAnchorIndex">
+          <template v-for="(status, index) in ticketStatus" :key="status.id">
+            <option :value="index">
+              {{ status.name }}
+            </option>
+          </template>
+        </ui-select>
+        <ul class="hidden w-full md:flex gap-x-5 justify-start">
+          <template v-for="(status, index) in ticketStatus" :key="status.name">
+            <a :href="`#${status.value}`" :class="activeAnchorIndex === index ? 'border-b-2 border-red-500 pb-0.5' : ''"
+              @click="activeAnchorIndex = index">
+              <li class="md:text-lg lg:text-2xl truncate dark:text-gray-200">{{ status.name }}</li>
+            </a>
+          </template>
+        </ul>
+        <ui-input type="text" placeholder="Buscar Tickets" v-model="searchTicket" />
+        <!-- Filter Button -->
+      </nav>
+    </header>
     <main class="mt-10">
       <div class=" flex flex-col gap-y-5">
         <template v-for="ticket in ticketsToShow.value" :key="ticket.id">
