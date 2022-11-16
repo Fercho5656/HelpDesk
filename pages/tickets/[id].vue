@@ -25,9 +25,9 @@
 <script setup lang="ts">
 import ITicket from '~~/interfaces/ITicket';
 import IMessage from '~~/interfaces/IMessage';
-import { addConversation } from '~~/services/conversation';
+import { addConversation, getDatabaseConversation } from '~~/services/conversation';
 import { updateStatus, updateAttendantUser, updateConversationId, updatePriority } from '~~/services/tickets/ticket';
-import { createConversation, getConversation, joinConversation } from '~~/services/twilio/conversation';
+import { createConversation, getConversation } from '~~/services/twilio/conversation';
 import { useConversationStore } from '~~/store/conversation.store';
 import { Conversation } from '@twilio/conversations';
 
@@ -52,18 +52,11 @@ const newMessage = ref<string>('')
 
 onBeforeMount(async () => {
   if (ticket.value.conversation_id == null) return
-  //@ts-ignore
-  conversation.value = await getConversation(ticket.value.conversation.twilio_conversation_SID, conversationStore.getTwilioAccessToken)
-  const messages = await conversation.value.getMessages()
-  conversationMessages.value = messages.items.map((message: any) => {
-    const { attachedMedia, attributes, author, body, dateCreated, dateUpdated,
-      index, lastUpdatedBy, media, participantSid, sid, subject, type } = message
-    return {
-      attachedMedia, attributes, author, body, dateCreated, dateUpdated,
-      index, lastUpdatedBy, media, participantSid, sid, subject, type
-    } as IMessage
-  })
-
+  const twilioConversationSID = ticket.value.conversation.twilio_conversation_SID
+  const { twilioConversation, messages } = await useTwilioMessages(twilioConversationSID, conversationStore.getTwilioAccessToken)
+  // @ts-ignore
+  conversation.value = twilioConversation
+  conversationMessages.value = messages
   conversation.value.on('messageAdded', (message: IMessage) => {
     conversationMessages.value.push(message)
   })
@@ -78,25 +71,14 @@ const onUpdatePriority = async (newPriority: number) => {
 }
 
 const onTakeTicket = async () => {
-  ticket.value.user_attending_id = user.value.id
   await updateAttendantUser(ticket.value.id, user.value.id)
+  ticket.value.user_attending_id = user.value.id
 
   const conversationName = `${ticket.value.user_id}-${ticket.value.subject}-${Date.now()}`
   const accessToken: string = conversationStore.getTwilioAccessToken
   const conversation = await createConversation(conversationName, accessToken)
 
-  try {
-    const createParticipant = useFetch('/api/twilio/createparticipant', {
-      method: 'POST',
-      body: JSON.stringify({
-        conversationSID: conversation.sid,
-        identity: ticket.value.user_id
-      })
-    })
-  } catch (error) {
-    await conversation.add(user.value.id)
-  }
-
+  await conversation.add(ticket.value.user_id)
 
   const dbConversation = await addConversation({
     twilio_conversation_SID: conversation.sid,
@@ -108,12 +90,18 @@ const onTakeTicket = async () => {
 
 const updateSuscription = client
   .from(`ticket:id=eq.${ticket.value.id}`)
-  .on('UPDATE', (payload) => {
-    // TO CHECK
-    /* if (ticket.value.conversation_id != null) {
+  .on('UPDATE', async (payload) => {
+    if (ticket.value.conversation_id !== payload.new.conversation_id) {
+      const databaseConversation = await getDatabaseConversation(payload.new.conversation_id)
+      const twilioConversationSID = databaseConversation[0].twilio_conversation_SID
+      const { twilioConversation, messages } = await useTwilioMessages(twilioConversationSID, conversationStore.getTwilioAccessToken)
       //@ts-ignore
-      conversation.value = getConversation(ticket.value.conversation.twilio_conversation_SID, conversationStore.getTwilioAccessToken)
-    } */
+      conversation.value = twilioConversation
+      conversationMessages.value = messages
+      conversation.value.on('messageAdded', (message: IMessage) => {
+        conversationMessages.value.push(message)
+      })
+    }
 
     if (ticket.value.status_id !== payload.new.status_id) {
       useToast({
@@ -142,9 +130,8 @@ const updateSuscription = client
   .subscribe()
 
 const onSendMessage = async () => {
-  if (conversation.value === null) return
+  if (conversation.value == null) return
   if (newMessage.value === '') return // TODO: Show error message
-  console.log(`Sending ${newMessage.value}`)
   conversation.value.sendMessage(newMessage.value)
   newMessage.value = ''
 }
