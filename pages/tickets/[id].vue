@@ -132,7 +132,7 @@ const updateSuscription = client
 const onSendMessage = async () => {
   if (conversation.value == null) return
   if (newMessage.value === '') return // TODO: Show error message
-  conversation.value.sendMessage(newMessage.value)
+  conversation.value.sendMessage(newMessage.value, { identity: user.value.user_metadata.fullName })
   newMessage.value = ''
 }
 
