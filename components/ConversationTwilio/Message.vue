@@ -4,7 +4,7 @@
       <icons-message-arrow class="absolute top-0" :class="isAuthor ? '-right-2 -scale-x-100 text-emerald-800' : '-left-2 text-gray-800'" />
       <p> {{ message.body }}</p>
     </div>
-    <p :class="isAuthor ? 'self-end' : 'self-start'" class="dark:text-gray-200">{{ message.author }} {{date}}</p>
+    <p :class="isAuthor ? 'self-end' : 'self-start'" class="dark:text-gray-200">{{ message.attributes.identity }} {{date}}</p>
   </div>
 </template>
 
