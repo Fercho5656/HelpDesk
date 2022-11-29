@@ -4,9 +4,9 @@
       <div class="flex w-full justify-between">
         <h1 class=" text-5xl dark:text-gray-200">Tickets</h1>
         <ui-button color="primary">
-          <a href="/tickets/new">
+          <nuxt-link to="/tickets/new">
             Abrir Ticket
-          </a>
+          </nuxt-link>
         </ui-button>
       </div>
       <nav class="flex justify-between w-full mt-5 items-center gap-x-5">
