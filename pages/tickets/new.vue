@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-3 py-5">
     <h1 class="text-5xl dark:text-gray-200">Nuevo Ticket</h1>
     <form @submit.prevent="onSubmitTicket" class="mt-10 flex flex-col gap-y-8">
       <ui-input v-model="subject" type="text" label="Asunto" placeholder="Olvidé mi contraseña" />
@@ -11,7 +11,7 @@
             {{ priority.priority }}
           </option>
         </ui-select>
-        <ui-button type="button" color="info">¿Qué prioridad elijo?</ui-button>
+        <ui-button @click="(showPriorityModal = true)" type="button" color="info">¿Qué prioridad elijo?</ui-button>
       </fieldset>
       <ui-select v-model="destinedDepartmentId" class="w-full" label="Departamento">
         <option v-for="department in departments" :value="department.id" :key="department.id">
@@ -20,6 +20,9 @@
       </ui-select>
       <ui-button type="submit">Enviar</ui-button>
     </form>
+    <ui-modal :show="showPriorityModal" @close="showPriorityModal = false">
+
+    </ui-modal>
   </div>
 </template>
 
@@ -43,6 +46,7 @@ const body = ref('')
 const priorityId = ref(1)
 const destinedDepartmentId = ref(1)
 const file = ref()
+const showPriorityModal = ref<boolean>(false)
 
 onBeforeMount(async () => {
   ticketPriority.value = await getPriorities()
