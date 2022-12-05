@@ -9,7 +9,10 @@
     <input
       class="appearance-none block w-full py-3 px-4 pl-14 text-md rounded-md bg-gray-200 dark:bg-gray-500 dark:placeholder-gray-300 focus:outline-none"
       :type="type" :placeholder="placeholder" :value="modelValue"
-      @input="onInput">
+      @input="onInput"
+      @focus="onFocus"
+      @blur="onBlur"
+      >
   </label>
 </template>
 
@@ -25,12 +28,23 @@ interface Props {
 }
 
 defineProps<Props>()
-const emits = defineEmits<{
+/* const emits = defineEmits<{
   (e: 'update:modelValue', value: string | number): void
-}>()
+}>() */
+const emits = defineEmits(['update:modelValue', 'focus', 'blur'])
 
 const onInput = (e: Event): Event => {
   emits('update:modelValue', (e.target as HTMLInputElement).value)
+  return e
+}
+
+const onFocus = (e: Event): Event => {
+  emits('focus', e)
+  return e
+}
+
+const onBlur = (e: Event): Event => {
+  emits('blur', e)
   return e
 }
 </script>
