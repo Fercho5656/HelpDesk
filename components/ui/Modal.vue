@@ -1,8 +1,8 @@
 <template>
   <teleport to="body">
     <transition name="fade">
-      <div class="fixed top-0 left-0 w-screen h-screen bg-black/50 flex justify-center items-center z-50" v-show="show">
-        <div ref="modal" class="relative rounded-md bg-gray-500 dark:bg-slate-500 p-12">
+      <div class="fixed top-0 left-0 w-screen h-screen bg-black/50 flex justify-center items-center z-50 sm:p-1 md:p-3 lg:p-5" v-show="show">
+        <div ref="modal" class="relative rounded-md bg-gray-500 dark:bg-slate-500 p-1 sm:p-2">
           <button @click="emits('close')" class="absolute top-3 right-3">
             <x-mark-icon class="w-5 h-5" />
           </button>
