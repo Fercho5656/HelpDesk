@@ -12,6 +12,7 @@
     "@nuxt/image-edge": "1.0.0-27719579.87dcdf2",
     "@nuxtjs/supabase": "0.1.27",
     "@nuxtjs/tailwindcss": "5.3.3",
+    "@types/string-similarity": "4.0.0",
     "@vueuse/core": "9.3.0",
     "@vueuse/nuxt": "9.3.0",
     "nuxt": "3.0.0-rc.10",
@@ -23,6 +24,7 @@
     "@twilio/conversations": "2.2.0",
     "pinia": "2.0.22",
     "simple-notify": "0.5.5",
+    "string-similarity": "4.0.4",
     "twilio": "3.83.0"
   }
 }
