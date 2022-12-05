@@ -21,7 +21,7 @@
       <ui-button type="submit">Enviar</ui-button>
     </form>
     <ui-modal :show="showPriorityModal" @close="showPriorityModal = false">
-
+      <ticket-priority-help />
     </ui-modal>
   </div>
 </template>
