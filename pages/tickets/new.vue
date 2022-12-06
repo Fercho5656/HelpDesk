@@ -3,8 +3,8 @@
     <h1 class="text-5xl dark:text-gray-200">Nuevo Ticket</h1>
     <form @submit.prevent="onSubmitTicket" class="mt-10 flex flex-col gap-y-8">
       <div class="relative">
-        <ui-input @focus="(showSugestions = true)" @blur="(showSugestions = false)" v-model="subject" type="text"
-          label="Asunto" placeholder="Olvidé mi contraseña" />
+        <ui-input @focus="(showSugestions = true)" ref="subjectRef" v-model="subject" type="text" label="Asunto"
+          placeholder="Olvidé mi contraseña" />
         <div class="absolute z-10 bg-gray-300 w-full rounded-md overflow-hidden" v-show="(showSugestions)">
           <ui-spinner class="p-5" v-show="showSearchingSpinner">
             <template v-slot:default>
@@ -77,6 +77,10 @@ const showSimilarTickets = computed(() => similarTickets.value.length > 0)
 onBeforeMount(async () => {
   ticketPriority.value = await getPriorities()
   departments.value = await getDepartments()
+})
+
+onClickOutside(subjectRef, () => {
+  showSugestions.value = false
 })
 
 watch(subject, useDebounce(async () => {
