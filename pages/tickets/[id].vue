@@ -15,7 +15,7 @@
       <div class="bg-gray-200 dark:bg-slate-700 p-3 sm:rounded-md"
         :class="showConversationNotAvailable ? 'blur pointer-events-none' : ''">
         <conversation-twilio :messages="conversationMessages" />
-        <input :disabled="showConversationNotAvailable" class="w-full p-1" type="text" v-model="newMessage"
+        <input :disabled="(disableInput)" class="w-full p-1" type="text" v-model="newMessage"
           @keyup.enter="onSendMessage" />
       </div>
     </main>
@@ -40,6 +40,7 @@ const user = useSupabaseUser()
 const client = useSupabaseClient()
 const conversationStore = useConversationStore()
 const ticket = ref<ITicket>(await useTicket(route.params.id as string) as ITicket)
+const disableInput = ref<boolean>(false)
 
 // If the user is the owner of the ticket, show the status badge else show the status badge control
 const statusComponent = computed(() => (ticket.value.user_id === user.value.id))
@@ -53,6 +54,26 @@ const newMessage = ref<string>('')
 onBeforeMount(async () => {
   if (ticket.value.conversation_id == null) return
   const twilioConversationSID = ticket.value.conversation.twilio_conversation_SID
+  if (ticket.value.status_id === 5) {
+    disableInput.value = true
+    console.log(disableInput.value)
+    const messages = await useReadOnlyTicket(twilioConversationSID)
+    if (messages.error.value) {
+      useToast({
+        title: 'Error',
+        text: 'No se pudo cargar la conversación',
+        status: 'error',
+        autotimeout: 5000,
+        autoclose: true
+      })
+    }
+    return conversationMessages.value = messages.data.value.map(message => {
+      return {
+        ...message,
+        attributes: JSON.parse(message.attributes)
+      } as unknown as IMessage
+    })
+  }
   const { twilioConversation, messages } = await useTwilioMessages(twilioConversationSID, conversationStore.getTwilioAccessToken)
   // @ts-ignore
   conversation.value = twilioConversation
