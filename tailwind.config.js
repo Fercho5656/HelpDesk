@@ -13,7 +13,11 @@ module.exports = {
         'screen/3': '33.333333vh',
         'screen/4': '25vh',
         'screen/5': '20vh',
-      }
+        'min-[]': '[]'
+      },
+      gridTemplateRows: {
+        'layout': 'auto 1fr auto',
+      },
     },
   },
   plugins: [],
