@@ -1,15 +1,15 @@
 export default interface IMessage {
-  attachedMedia: Array<any>
+  attachedMedia?: Array<any>
   attributes: Object
   author: string
   body: string
   dateCreated: Date
   dateUpdated: Date
   index: number
-  lastUpdatedBy: string
+  lastUpdatedBy?: string
   media: any
-  participantSid: string
+  participantSid?: string
   sid: string
-  subject: string
+  subject?: string
   type: string
 }
