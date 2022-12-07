@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full p-2 justify-around flex max-h-[4rem] bg-slate-800 ">
+  <div class="w-full p-2 justify-around flex max-h-[4rem] bg-gray-400 dark:bg-slate-800">
     <sidebar-mobile-frame v-for="route in props.routes" :key="route.name" :route="route" />
   </div>
 </template>
