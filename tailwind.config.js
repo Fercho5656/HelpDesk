@@ -17,6 +17,7 @@ module.exports = {
       },
       gridTemplateRows: {
         'layout': 'auto 1fr auto',
+        'layout-2': 'auto 1fr',
       },
     },
   },
