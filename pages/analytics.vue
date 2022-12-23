@@ -1,5 +1,6 @@
 <template>
-  <h1>Analytics</h1>
+  <ui-heading heading="h1">Analytics</ui-heading>
+  
 </template>
 
 <script setup lang="ts">
