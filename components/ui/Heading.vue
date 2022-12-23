@@ -1,5 +1,5 @@
 <template>
-  <component :is="props.heading" class="font-semibold" :class="textStyles">
+  <component :is="props.heading" class="font-semibold text-gray-800 dark:text-gray-200" :class="textStyles">
     <slot />
   </component>
 </template>
