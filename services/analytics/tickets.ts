@@ -10,9 +10,9 @@ export const totalTicketCountByPriority = async (event: CompatibilityEvent) => {
   return { data, error }
 }
 
-export const ticketCountByPriority = async (event: CompatibilityEvent, startDate?: string, finalDate?: string) => {
+export const ticketCountByPriority = async (event: CompatibilityEvent, startDate?: string, endDate?: string) => {
   const client = serverSupabaseClient(event)
   const { data, error } = await client
-    .rpc('open_tickets_by_priority', { "start_date": startDate, "final_date": finalDate })
+    .rpc('open_tickets_by_priority', { "start_date": startDate, "end_date": endDate })
   return { data, error }
 }
