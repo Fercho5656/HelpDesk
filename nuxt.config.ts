@@ -2,6 +2,6 @@
 export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', '@nuxt/image-edge', '@nuxtjs/supabase', '@pinia/nuxt', "@vueuse/nuxt"],
   build: {
-    transpile: ['@heroicons/vue']
-  }
+    transpile: ['@heroicons/vue', 'chart.js']
+  },
 })
