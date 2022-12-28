@@ -12,7 +12,6 @@
     "@nuxt/image-edge": "1.0.0-27719579.87dcdf2",
     "@nuxtjs/supabase": "0.1.27",
     "@nuxtjs/tailwindcss": "5.3.3",
-    "@types/d3": "7.4.0",
     "@types/string-similarity": "4.0.0",
     "@vueuse/core": "9.3.0",
     "@vueuse/nuxt": "9.3.0",
@@ -23,10 +22,11 @@
     "@heroicons/vue": "2.0.11",
     "@pinia/nuxt": "0.4.2",
     "@twilio/conversations": "2.2.0",
-    "d3": "7.8.0",
+    "chart.js": "^4.1.1",
     "pinia": "2.0.22",
     "simple-notify": "0.5.5",
     "string-similarity": "4.0.4",
-    "twilio": "3.83.0"
+    "twilio": "3.83.0",
+    "vue-chartjs": "^5.1.0"
   }
 }
