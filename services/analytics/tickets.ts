@@ -19,3 +19,13 @@ export const ticketCountByPriority = async (event: CompatibilityEvent, startDate
     .single()
   return { data, error }
 }
+
+export const totalTicketPercentageSolvedByPriority = async (event: CompatibilityEvent): Promise<ISupabaseQuery<ITicketCount>> => {
+  const client = serverSupabaseClient(event)
+  const { data, error } = await client
+    .from('total_percentage_resolved_tickets_by_priority')
+    .select('*')
+    .single()
+
+  return { data, error }
+}
