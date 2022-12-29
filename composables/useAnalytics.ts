@@ -14,14 +14,15 @@ export default function useAnalytics() {
   ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
   const { bgColor, titleColor } = useChartColor()
 
-  const ticketCountByPriorityData = ref({
+  const ticketCountByPriorityData = ref<ChartData>({
     labels: ['Baja', 'Media', 'Alta', 'Urgente'],
     datasets: [{
       data: [] as number[],
       backgroundColor: bgColor.value,
     }]
   } satisfies ChartData)
-  const ticketCountByPriorityOptions = ref({
+
+  const ticketCountByPriorityOptions = ref<ChartOptions>({
     responsive: true,
     plugins: {
       legend: {
