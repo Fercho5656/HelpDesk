@@ -1,15 +1,18 @@
 <template>
-  <div>
-    <ui-heading heading="h1">Analytics</ui-heading>
-    <bar :data="ticketCountByPriorityData" :options="ticketCountByPriorityOptions" />
+  <div class="flex gap-8 justify-center sm:justify-start flex-wrap">
+    <bar class="max-w-sm max-h-96" :data="ticketCountByPriorityData" :options="ticketCountByPriorityOptions" />
+    <pie class="max-w-sm max-h-96" :data="ticketSolvedPercentageData" :options="ticketSolvedPercentageOptions" />
     <!-- <bar :data="data" :options="options" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { Bar } from 'vue-chartjs'
+import { Bar, Pie } from 'vue-chartjs'
+import useTicketCount from '~~/composables/analytics/useTicketCount';
+import useTicketSolvedPercentage from '~~/composables/analytics/useTicketSolvedPercentage';
 
-const { ticketCountByPriorityData, ticketCountByPriorityOptions } = await useAnalytics()
+const { ticketCountByPriorityData, ticketCountByPriorityOptions } = useTicketCount();
+const { ticketSolvedPercentageData, ticketSolvedPercentageOptions } = useTicketSolvedPercentage()
 
 </script>
 
