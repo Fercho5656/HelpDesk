@@ -1,17 +1,7 @@
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  ChartData,
-  ChartOptions,
-} from 'chart.js'
+import { ChartData, ChartOptions } from 'chart.js'
 
-export default function useAnalytics() {
-  ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+export default function useTicketCount() {
+  useChart()
   const { bgColor, titleColor } = useChartColor()
 
   const ticketCountByPriorityData = ref<ChartData>({
@@ -20,7 +10,7 @@ export default function useAnalytics() {
       data: [] as number[],
       backgroundColor: bgColor.value,
     }]
-  } satisfies ChartData)
+  } as ChartData)
 
   const ticketCountByPriorityOptions = ref<ChartOptions>({
     responsive: true,
@@ -38,7 +28,7 @@ export default function useAnalytics() {
         }
       },
     }
-  } satisfies ChartOptions)
+  } as ChartOptions)
 
   const fetchData = async () => {
     const ticketCountByPriority = await $fetch('/api/analytics/ticket-count-by-priority')
@@ -58,7 +48,7 @@ export default function useAnalytics() {
         data: Object.values(ticketCountByPriority.data) as number[],
         backgroundColor: bgColor.value,
       }]
-    } satisfies ChartData
+    } as ChartData
   }
 
   fetchData()
