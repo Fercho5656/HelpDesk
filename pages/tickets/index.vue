@@ -3,11 +3,9 @@
     <header class="w-full bg-inherit p-3 sticky top-0 z-10 flex flex-col justify-between items-center">
       <div class="flex w-full justify-between">
         <h1 class=" text-5xl dark:text-gray-200">Tickets</h1>
-        <ui-button color="primary">
-          <nuxt-link to="/tickets/new">
-            Abrir Ticket
-          </nuxt-link>
-        </ui-button>
+        <nuxt-link class="px-5 py-2.5 font-semibold text-white bg-blue-500 rounded-md hover:opacity-95 focus:outline-none" to="/tickets/new">
+          Abrir Ticket
+        </nuxt-link>
       </div>
       <nav class="flex justify-between w-full mt-5 items-center gap-x-5">
         <ui-select class="md:hidden" v-model.number="activeAnchorIndex">
