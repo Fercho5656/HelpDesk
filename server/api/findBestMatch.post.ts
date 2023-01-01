@@ -5,7 +5,7 @@ import ITicket from '~~/interfaces/ITicket'
 export default defineEventHandler(async (event) => {
   const body = await useBody(event)
   const client = serverSupabaseClient(event)
-  const { subject } = body
+  const { subject }: { subject: string } = body
   console.log('subject', subject)
   const targets = await client
     .from('ticket')
@@ -13,10 +13,10 @@ export default defineEventHandler(async (event) => {
   if (targets.error) {
     return targets.error
   }
-  // console.log(targets.data)
-  const matches = ss.findBestMatch(subject, targets.data?.map((t: ITicket) => t.subject))
+  const matches = ss.findBestMatch(subject.toLocaleLowerCase(), targets.data?.map((t: ITicket) => t.subject.toLocaleLowerCase()))
   // add supabase id to every match
   const matchesWithId = matches.ratings.map((m, i) => ({ ...m, id: targets.data[i].id }))
-  console.log('matches', matchesWithId)
-  return matchesWithId.sort((a, b) => a.rating - b.rating).reverse().slice(0, 3)
+  const sortedMatches = matchesWithId.sort((a, b) => b.rating - a.rating).slice(0, 3)
+  console.log('matches', sortedMatches)
+  return sortedMatches
 })
