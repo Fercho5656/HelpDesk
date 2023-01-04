@@ -1,5 +1,8 @@
 <template>
   <div class="bg-white dark:bg-slate-800">
+    <ui-modal :show="showEvaluateTicketModal" @close="showEvaluateTicketModal = false">
+      Evaluame
+    </ui-modal>
     <header class="w-full bg-inherit sticky top-0 z-10 mt-3 p-3 flex items-center justify-start gap-x-5">
       <h1 class="dark:text-gray-100 text-3xl font-semibold"> {{ ticket.subject }} </h1>
       <div class="flex items-center gap-x-3 flex-wrap">
@@ -8,6 +11,9 @@
         <ticket-status-badge :status="ticket.status_id" @update:status="onUpdateStatus" v-if="statusComponent" />
         <ticket-status-badge-control @take-ticket="onTakeTicket" @update:status="onUpdateStatus"
           :status="ticket.status_id" v-else />
+        <ui-button v-if="canFeedback" @click="showEvaluateTicketModal = true">
+          Evaluar Ticket
+        </ui-button>
       </div>
     </header>
     <main class="py-3 relative">
@@ -41,22 +47,24 @@ const client = useSupabaseClient()
 const conversationStore = useConversationStore()
 const ticket = ref<ITicket>(await useTicket(route.params.id as string) as ITicket)
 const disableInput = ref<boolean>(false)
+const canFeedback = ref<boolean>(false)
 
 // If the user is the owner of the ticket, show the status badge else show the status badge control
 const statusComponent = computed(() => (ticket.value.user_id === user.value.id))
 const showEditablePriority = computed(() => (ticket.value.user_attending_id === user.value.id))
 const showConversationNotAvailable = computed(() => (ticket.value.conversation_id == null))
+const showEvaluateTicketModal = ref<boolean>(false)
 
 const conversation = ref<Conversation | null>(null)
 const conversationMessages = ref<Array<IMessage>>([])
 const newMessage = ref<string>('')
 
-onBeforeMount(async () => {
+onMounted(async () => {
   if (ticket.value.conversation_id == null) return
   const twilioConversationSID = ticket.value.conversation.twilio_conversation_SID
   if (ticket.value.status_id === 5) {
+    canFeedback.value = (ticket.value.user_id === user.value.id)
     disableInput.value = true
-    console.log(disableInput.value)
     const messages = await useReadOnlyTicket(twilioConversationSID)
     if (messages.error.value) {
       useToast({
