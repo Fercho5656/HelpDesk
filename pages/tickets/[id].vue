@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white dark:bg-slate-800">
     <ui-modal :show="showEvaluateTicketModal" @close="showEvaluateTicketModal = false">
-      Evaluame
+      <ticket-feedback-form :ticket-id="ticket.id" />
     </ui-modal>
     <header class="w-full bg-inherit sticky top-0 z-10 mt-3 p-3 flex items-center justify-start gap-x-5">
       <h1 class="dark:text-gray-100 text-3xl font-semibold"> {{ ticket.subject }} </h1>
