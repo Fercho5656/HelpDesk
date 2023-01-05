@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-8 justify-center sm:justify-start flex-wrap">
+  <div class="p-5 flex gap-8 justify-center sm:justify-start flex-wrap">
     <bar class="max-w-sm max-h-96" :data="ticketCountByPriorityData" :options="ticketCountByPriorityOptions" />
     <pie class="max-w-sm max-h-96" :data="ticketSolvedPercentageData" :options="ticketSolvedPercentageOptions" />
     <!-- <bar :data="data" :options="options" /> -->
