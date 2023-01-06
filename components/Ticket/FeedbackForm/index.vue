@@ -18,7 +18,9 @@
 
 <script setup lang="ts">
 import { PaperAirplaneIcon } from '@heroicons/vue/24/solid';
+import ITicketQualification from '~~/interfaces/ITicketQualification';
 import { sendQualification } from '~~/services/tickets/qualification';
+import { updateQualification } from '~~/services/tickets/ticket';
 interface Props {
   ticketId: number
 }
@@ -35,8 +37,10 @@ const onSend = async () => {
     text: 'Debes seleccionar una calificación',
     type: 1,
   })
-  const { data, error } = await sendQualification({ stars: stars.value, comment: comment.value, ticket_id: props.ticketId })
-  if (error) return useToast({
+  const { data: qualificationData, error: qualificationError } = await sendQualification({ stars: stars.value, comment: comment.value })
+  const { data, error } = await updateQualification(props.ticketId, (qualificationData as ITicketQualification).id)
+  
+  if (qualificationError || error) return useToast({
     title: 'Error',
     status: 'error',
     text: 'No se pudo enviar la calificación',
