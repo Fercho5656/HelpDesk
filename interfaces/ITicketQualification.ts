@@ -3,5 +3,4 @@ export default interface ITicketQualification {
   created_at?: string;
   stars: number;
   comment: string;
-  ticket_id: number;
 }

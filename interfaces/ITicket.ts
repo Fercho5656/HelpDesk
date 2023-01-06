@@ -14,4 +14,5 @@ export default interface ITicket {
   user_id: string;
   user_attending_id?: string;
   conversation_id?: number;
+  qualification_id?: number;
 }
