@@ -1,5 +1,7 @@
 import { PostgrestError } from "@supabase/supabase-js";
+import ISupabaseQuery from "~~/interfaces/ISupabaseQuery";
 import ITicket from "~~/interfaces/ITicket";
+import ITicketQualification from "~~/interfaces/ITicketQualification";
 
 export const sendTicket = async (ticket: ITicket): Promise<ITicket[] | PostgrestError> => {
   const client = useSupabaseClient()
@@ -92,4 +94,15 @@ export const updateConversationId = async (id: number, conversation_id: number):
     return error
   }
   return data[0]
+}
+
+export const updateQualification = async (id: number, qualification_id: number): Promise<ISupabaseQuery<ITicket>> => {
+  const client = useSupabaseClient()
+
+  const { data, error } = await client
+    .from('ticket')
+    .update({ qualification_id })
+    .eq('id', id)
+    .single()
+  return { data, error }
 }
