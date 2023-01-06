@@ -63,7 +63,7 @@ onMounted(async () => {
   if (ticket.value.conversation_id == null) return
   const twilioConversationSID = ticket.value.conversation.twilio_conversation_SID
   if (ticket.value.status_id === 5) {
-    canFeedback.value = (ticket.value.user_id === user.value.id)
+    canFeedback.value = (ticket.value.user_id === user.value.id && ticket.value.qualification_id == null)
     disableInput.value = true
     const messages = await useReadOnlyTicket(twilioConversationSID)
     if (messages.error.value) {
