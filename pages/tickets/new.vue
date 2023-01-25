@@ -23,7 +23,6 @@
         </div>
       </div>
       <ui-textarea v-model="body" label="Descripción" placeholder="Mi contraseña es: 123456" />
-      <ui-input-file v-model="file" />
       <fieldset class="flex items-center gap-x-10">
         <ui-select v-model="priorityId" class="w-full" label="Nivel de prioridad">
           <option v-for="priority in ticketPriority" :value="priority.id" :key="priority.id">
