@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="submitLogin"
-    class="flex flex-col w-full m-auto gap-y-12 col-span-12 md:col-span-7 md:w-9/12 p-5">
+    class="flex flex-col w-full max-w-xl m-auto gap-y-12 col-span-12 md:col-span-7 md:w-9/12 p-5">
     <h2 class="dark:text-gray-50 mb-3 text-2xl font-bold text-center">Bienvenido, inicie sesión</h2>
     <div class="flex flex-col gap-y-10">
       <ui-input type="email" label="Correo Electrónico" placeholder="name@pfatequila.com" v-model="email" />
